@@ -10,6 +10,7 @@ public class DefaultBullet : MonoBehaviour
     [SerializeField] public Vector3 Direction;
     public float MaxTravel = 100;
     private Vector3 start;
+    public int damage = 1;
     // Start is called before the first frame update
     void Start()
     {
