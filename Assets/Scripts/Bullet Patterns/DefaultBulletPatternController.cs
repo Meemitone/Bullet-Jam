@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class DefaultBulletPatternController : MonoBehaviour
 {
-    [Header("This Bullet Pattern Script Does Nothing")]
-    public int dummy;
+    [Header("This Bullet Pattern Script Fires in a straight line")]
 
     public float BulletSpeeds;
+    public float MaxTravel;
     [Header("This entity spawned these bullets (assigned by this script)")]
     public Gun_Controller Spawner;
     // Start is called before the first frame update
@@ -35,6 +35,7 @@ public class DefaultBulletPatternController : MonoBehaviour
         {
             boolet.Speed = BulletSpeeds;
             boolet.Direction = new Vector3(0,0,1);
+            boolet.MaxTravel = MaxTravel;
         }
         Spawner.CompleteFire();//this bullet pattern is so simple that it's finished firing immediately, there's no circular pattern spawned one at a time or something
     }
