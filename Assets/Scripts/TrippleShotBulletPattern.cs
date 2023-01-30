@@ -56,6 +56,7 @@ public class TrippleShotBulletPattern : MonoBehaviour
     {
         running = true;
         Vector3 tempDir = player.transform.position - transform.position;
+        tempDir.y = 0;
         GameObject newbullet = Instantiate(BulletType, transform.position, Quaternion.identity, transform);
         newbullet.transform.rotation = Quaternion.LookRotation(tempDir, Vector3.up);
         newbullet.GetComponent<DefaultBullet>().Speed = BulletSpeeds;
@@ -69,7 +70,6 @@ public class TrippleShotBulletPattern : MonoBehaviour
                 yield return null;
             }
             internalTime -= Spread;
-            tempDir = player.transform.position - transform.position;
             newbullet = Instantiate(BulletType, transform.position, Quaternion.identity, transform);
             newbullet.transform.rotation = Quaternion.LookRotation(tempDir, Vector3.up);
             newbullet.GetComponent<DefaultBullet>().Speed = BulletSpeeds;
