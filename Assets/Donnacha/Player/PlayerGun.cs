@@ -13,10 +13,13 @@ public class PlayerGun : MonoBehaviour
     public List<GameObject> bulletPrefabs = new List<GameObject>();
     private GameObject bulletHolder;
 
-    private bool firing;
+    public float laserTime, shotgunTime, smgTime;
+    private float diviation;
 
-    [Header ("Laser Stuff")]
-    public float laserTime;
+    private bool firing;
+    private bool reloading;
+
+    [Header ("Laser Info")]
     private Vector3 laserPos;
     private bool laserActive;
     public GameObject laserHit;
@@ -44,7 +47,7 @@ public class PlayerGun : MonoBehaviour
 
     public void Firegun()
     {
-        if (firing)
+        if (firing || reloading)
             return;
 
         firing = true;
@@ -54,10 +57,14 @@ public class PlayerGun : MonoBehaviour
                 Debug.Log("gunmissing");
                 break;
             case (WhichGun.shotgun):
-                SpawnBullet(0);
+                GameObject firing = GameObject.Instantiate(bulletPrefabs[0], firePoint);
+                firing.GetComponent<Shotgun>().Fire(bulletHolder, firePoint);
+                Invoke(nameof(FiringEnd), shotgunTime);
                 break;
             case (WhichGun.smg):
-                SpawnBullet(1);
+                GameObject bullet = GameObject.Instantiate(bulletPrefabs[1], firePoint.position, firePoint.rotation * Quaternion.Euler(90, 0, Random.Range(-diviation, diviation)));
+                bullet.GetComponent<Rigidbody>().velocity = transform.forward * 20;
+                Invoke(nameof(FiringEnd), smgTime);
                 break;
             case (WhichGun.laser):
                 LaserBegin();
@@ -65,13 +72,7 @@ public class PlayerGun : MonoBehaviour
         }
     }
 
-    private void SpawnBullet(int index)
-    {
-        
-
-        GameObject newBullet = GameObject.Instantiate(bulletPrefabs[index], transform.position, transform.rotation, bulletHolder.transform);
-
-    }
+    public void FiringEnd() => firing = false;
 
     private void LaserBegin()
     {
@@ -101,6 +102,12 @@ public class PlayerGun : MonoBehaviour
 
     }
 
+    private void Update()
+    {
+        if (GetComponent<PlayerMovement>().inputSystem.Player.Fire.IsPressed())
+            Firegun();
+    }
+
     private void FixedUpdate()
     {
 
@@ -110,7 +117,6 @@ public class PlayerGun : MonoBehaviour
 
             if(Physics.Raycast(firePoint.position, firePoint.forward, out hit/*, wall*/))
             {
-                Debug.Log(hit.transform.name);
                 float laserDistance = Vector3.Distance(firePoint.position, laserPos);
                 if (laserDistance < hit.distance)
                     laserPos = Vector3.Lerp(laserPos, hit.point, Time.deltaTime * laserSpeed);
