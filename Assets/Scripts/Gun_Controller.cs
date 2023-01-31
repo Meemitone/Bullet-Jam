@@ -32,10 +32,12 @@ public class Gun_Controller : MonoBehaviour
     {
         if (BulletIndex < 0 || BulletIndex >= BulletPatterns.Length)
             BulletIndex = 0;
+        Cooling = -CooldownTime;
+        State = 1;
     }
 
     // Update is called once per frame
-    private void Update()
+    private void FixedUpdate()
     {
         switch(State)
         {
