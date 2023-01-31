@@ -67,7 +67,7 @@ public class TrippleShotBulletPattern : MonoBehaviour
             while(internalTime < Spread)
             {
                 internalTime += Time.deltaTime;
-                yield return null;
+                yield return new WaitForFixedUpdate();
             }
             internalTime -= Spread;
             newbullet = Instantiate(BulletType, transform.position, Quaternion.identity, transform);
