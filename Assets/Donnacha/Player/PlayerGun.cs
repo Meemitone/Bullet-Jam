@@ -9,14 +9,13 @@ public class PlayerGun : MonoBehaviour
     public enum WhichGun { shotgun, smg, laser };
 
     [Header("Guns and Bullets")]
-    public WhichGun currentGun;
-
-    public List<GameObject> bulletPrefabs = new List<GameObject>();
-    private GameObject bulletHolder;
+    public WhichGun currentGun; [Tooltip("Don't touch use bumpers/ E & Q")]
+    public List<GameObject> bulletPrefabs = new List<GameObject>(); [Tooltip("Index 0 = Shotgun | Index 1 = SMG")]
+    private GameObject bulletHolder; 
 
 
     private int gunIndex = 0;
-    private List<string> gunsActive = new List<string>();
+    private int gunCount = 1;
 
     private bool firing;
     private bool reloading;
@@ -25,24 +24,29 @@ public class PlayerGun : MonoBehaviour
     public bool laserActive;
     public GameObject laserHit;
     public float laserSpeed;
-    public float laserUpTime;
+    public float laserUpTime; [Tooltip("How long laser lasts in total")]
     private LineRenderer laserLine;
     private List<GameObject> laserHits = new List<GameObject>();
     private Transform laserPos;
+    public int laserInventoryAmmo = 10;
+
 
     [Header("SMG Info")]
-    public float maxDiviation;
+    public float maxDiviation; [Tooltip("Diviation on both sides")]
     public float diviationMulti;
     public float smgBulletSpeed;
     public float smgFireRate;
     private float diviation;
+    public int smgInventoryAmmo = 100;
+    public int smgClipMax = 20;
+    public int smgAmmoCurrent;
 
     [Header("Shotgun Info")]
     public float shotgunFireRate;
 
 
     [Header("References")]
-    public Transform firePoint;
+    public Transform firePoint; [Tooltip("Location for bullets to begin")]
     public LayerMask walls;
     public LayerMask sparksMask;
 
@@ -59,15 +63,15 @@ public class PlayerGun : MonoBehaviour
 
         laserPos = GameObject.Instantiate(new GameObject()).transform;
 
-        gunsActive.Add("Shotgun");
         currentGun = WhichGun.shotgun;
 
+        smgAmmoCurrent = smgClipMax;
 
     }
 
     public void Firegun()
     {
-        if (firing || reloading)
+        if (firing || reloading || GetComponent<PlayerMovement>().dodging)
             return;
 
         firing = true;
@@ -77,19 +81,58 @@ public class PlayerGun : MonoBehaviour
                 Debug.Log("gunmissing");
                 break;
             case (WhichGun.shotgun):
-                GameObject firing = GameObject.Instantiate(bulletPrefabs[0], firePoint);
-                firing.GetComponent<Shotgun>().Fire(bulletHolder, firePoint);
+                GameObject fired = GameObject.Instantiate(bulletPrefabs[0], firePoint);
+                fired.GetComponent<Shotgun>().Fire(bulletHolder, firePoint);
                 Invoke(nameof(FiringEnd), shotgunFireRate);
                 break;
             case (WhichGun.smg):
+                if (smgAmmoCurrent == 0)
+                {
+
+                    reloading = true;
+                    firing = false;
+                    ReloadSMG();
+                }
+                smgAmmoCurrent--;
                 GameObject bullet = GameObject.Instantiate(bulletPrefabs[1], firePoint.position, firePoint.rotation * Quaternion.Euler(90, 0, Random.Range(-diviation, diviation)), bulletHolder.transform);
                 bullet.GetComponent<Rigidbody>().velocity = bullet.transform.up * smgBulletSpeed;
                 Invoke(nameof(FiringEnd), smgFireRate);
                 break;
             case (WhichGun.laser):
+                if (laserInventoryAmmo == 0)
+                {
+                    firing = false;
+                    return;
+                }
+                laserInventoryAmmo--;
                 LaserBegin();
                 break;
         }
+    }
+
+    public void ReloadSMG()
+    {
+        if (smgInventoryAmmo >= smgClipMax)
+        {
+            smgAmmoCurrent = smgClipMax;
+            smgInventoryAmmo -= smgClipMax;
+        }
+        else
+        {
+            smgAmmoCurrent = smgInventoryAmmo;
+            smgInventoryAmmo = 0;
+        }
+
+        if (smgAmmoCurrent != 0)
+            Invoke(nameof(EndReload), 1.5f);
+        else
+            reloading = false;
+
+    }
+
+    public void EndReload()
+    {
+        reloading = false;
     }
 
     public void FiringEnd() => firing = false;
@@ -124,6 +167,7 @@ public class PlayerGun : MonoBehaviour
 
     private void Update()
     {
+
         if (GetComponent<PlayerMovement>().inputSystem.Player.Fire.IsPressed())
         {
             Firegun();
@@ -141,8 +185,6 @@ public class PlayerGun : MonoBehaviour
 
     private void FixedUpdate()
     {
-        
-
         if (laserActive)
         {
             RaycastHit hit;
@@ -207,7 +249,7 @@ public class PlayerGun : MonoBehaviour
 
     public void OnSwapWeaponRight(InputAction.CallbackContext action)
     {
-        if(action.phase.ToString() == "Started" && !firing)
+        if(action.phase.ToString() == "Started" || action.phase.ToString() == "Started" && currentGun == WhichGun.laser  && !firing)
         {
             if (gunIndex < 3 - 1)
                 gunIndex++;
@@ -231,7 +273,7 @@ public class PlayerGun : MonoBehaviour
 
     public void OnSwapWeaponLeft(InputAction.CallbackContext action)
     {
-        if (action.phase.ToString() == "Started" && !firing)
+        if (action.phase.ToString() == "Started" || action.phase.ToString() == "Started" && currentGun == WhichGun.laser && !firing)
         {
             if (gunIndex > 0)
                 gunIndex--;
@@ -251,6 +293,11 @@ public class PlayerGun : MonoBehaviour
                     break;
             }
         }
+    }
+
+    public void AddGun()
+    {
+        gunCount++;
     }
 
 }
