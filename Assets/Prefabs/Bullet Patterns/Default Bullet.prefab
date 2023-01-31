@@ -132,7 +132,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speed: 1
   Direction: {x: 0, y: 0, z: 0}
-  MaxTravel: 10
+  MaxTravel: 200
+  damage: 1
 --- !u!136 &7870693159471689376
 CapsuleCollider:
   m_ObjectHideFlags: 0
