@@ -14408,7 +14408,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fc37fe8f6ad3f542b7fac2bb4b86543, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menu: {fileID: 0}
+  menu: {fileID: 792866070}
   ammoText: {fileID: 131201934}
   hearts: {fileID: 1973119715}
   heartGlows:
@@ -37371,7 +37371,7 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5000001
-  m_Height: 2
+  m_Height: 10
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!23 &1855859589
@@ -42416,6 +42416,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2664061716880488460, guid: 2aa9d49387858794aa77579c12f6194c, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3520394247443927383, guid: 2aa9d49387858794aa77579c12f6194c, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
@@ -42449,6 +42453,10 @@ PrefabInstance:
     - target: {fileID: 2506011243183830325, guid: 8c841f6911f876c46b4f2d3b1ec79255, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 3254785700567489364, guid: 8c841f6911f876c46b4f2d3b1ec79255, type: 3}
+      propertyPath: m_Height
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3837673056509498426, guid: 8c841f6911f876c46b4f2d3b1ec79255, type: 3}
       propertyPath: m_Name
