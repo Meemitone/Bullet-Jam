@@ -85,9 +85,12 @@ MonoBehaviour:
   smgFireRate: 0.2
   shotgunFireRate: 1
   firePoint: {fileID: 5607722683460323736}
-  wall:
+  walls:
     serializedVersion: 2
     m_Bits: 1024
+  sparksMask:
+    serializedVersion: 2
+    m_Bits: 5376
 --- !u!114 &5607722683059589278
 MonoBehaviour:
   m_ObjectHideFlags: 0

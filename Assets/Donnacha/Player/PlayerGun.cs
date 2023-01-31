@@ -43,7 +43,8 @@ public class PlayerGun : MonoBehaviour
 
     [Header("References")]
     public Transform firePoint;
-    public LayerMask wall;
+    public LayerMask walls;
+    public LayerMask sparksMask;
 
     private void Start()
     {
@@ -60,6 +61,7 @@ public class PlayerGun : MonoBehaviour
 
         gunsActive.Add("Shotgun");
         currentGun = WhichGun.shotgun;
+
 
     }
 
@@ -139,12 +141,13 @@ public class PlayerGun : MonoBehaviour
 
     private void FixedUpdate()
     {
+        
 
         if (laserActive)
         {
             RaycastHit hit;
 
-            if(Physics.Raycast(firePoint.position, firePoint.forward, out hit, wall))
+            if(Physics.Raycast(firePoint.position, firePoint.forward, out hit, 1000, layerMask: walls))
             {
                 float laserDistance = Vector3.Distance(firePoint.position, laserPos.position);
                 if (laserDistance < hit.distance)
@@ -152,17 +155,23 @@ public class PlayerGun : MonoBehaviour
                 else if (laserDistance > hit.distance)
                     laserPos.position = hit.point;
 
-                RaycastHit[] hits = Physics.SphereCastAll(firePoint.position, 0.175f, firePoint.forward, laserDistance);
-                RaycastHit[] hits1 = Physics.SphereCastAll(laserPos.position, laserLine.startWidth / 2, -firePoint.forward, laserDistance);
+                laserLine.SetPosition(0, firePoint.position);
+                laserLine.SetPosition(1, laserPos.position);
 
+                RaycastHit[] hits = Physics.SphereCastAll(firePoint.position, laserLine.startWidth / 2, firePoint.forward, laserDistance, layerMask: sparksMask);
+                RaycastHit[] hits1 = Physics.SphereCastAll(laserPos.position + -firePoint.forward * laserLine.startWidth, laserLine.startWidth / 2, -firePoint.forward, laserDistance, layerMask: sparksMask);
+
+                if (hits.Length == 0)
+                    return;
                 int i = 0;
                 foreach(RaycastHit touch in hits)
                 {
 
                     if (laserHits.Count <= i)
-                        laserHits.Add(GameObject.Instantiate(laserHit));
+                        laserHits.Add(GameObject.Instantiate(laserHit, new Vector3(-200, -200, -200), transform.rotation));
                     laserHits[i].transform.position = touch.point;
                     laserHits[i].transform.rotation = Quaternion.LookRotation(touch.normal);
+                    laserHits[i].name = touch.transform.name + " Sparks";
 
                     if(touch.transform.tag == "Enemy")
                     {
@@ -175,10 +184,10 @@ public class PlayerGun : MonoBehaviour
                 {
 
                     if (laserHits.Count <= i)
-                        laserHits.Add(GameObject.Instantiate(laserHit));
+                        laserHits.Add(GameObject.Instantiate(laserHit, new Vector3(-200, -200, -200), transform.rotation));
                     laserHits[i].transform.position = touch.point;
                     laserHits[i].transform.rotation = Quaternion.LookRotation(touch.normal);
-
+                    laserHits[i].name = touch.transform.name + " Sparks";
                     i++;
                 }
                 int saveIndex = i;
@@ -189,13 +198,9 @@ public class PlayerGun : MonoBehaviour
                         i++;
                     }
                 if (laserHits.Count >= saveIndex)
-                    laserHits.RemoveRange(saveIndex, laserHits.Count - saveIndex);
+                    laserHits.RemoveRange(saveIndex, laserHits.Count - saveIndex );
 
             }
-
-            laserLine.SetPosition(0, firePoint.position);
-            laserLine.SetPosition(1, laserPos.position);
-
         }
 
     }
