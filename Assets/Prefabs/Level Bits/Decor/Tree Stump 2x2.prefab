@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 808532241416204013}
   - component: {fileID: 1495078423130460846}
   - component: {fileID: 6531359715328079857}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Stump1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 3865600039022787024}
   - component: {fileID: 3722330841735750261}
   - component: {fileID: 6480678931428242226}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Tree Stump 2x2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
