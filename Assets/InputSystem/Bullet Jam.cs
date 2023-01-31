@@ -53,6 +53,33 @@ public partial class @BulletJam : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwapWeaponRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""55a60594-0336-43c1-a7df-e0fcad83feb5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwapWeaponLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""364b9b8f-3d2a-4dca-b238-1e7d7df83d46"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Dash"",
+                    ""type"": ""Button"",
+                    ""id"": ""327626b0-643b-4334-a9a4-92d0e6253d7e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -273,6 +300,94 @@ public partial class @BulletJam : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""XR"",
                     ""action"": ""Fire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a53fa869-889b-4cc7-ab4a-f07f488f544d"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwapWeaponRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5b865a82-5399-4803-8715-55e523eaf1ae"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""SwapWeaponRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b3ea2c99-b68c-4c3f-903b-b18ca09a945c"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwapWeaponLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""afbd13b8-6f61-4561-b6d1-54fd6ef10265"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwapWeaponLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""66362b2f-11b4-477f-a5a2-09198a4b6750"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e192140b-f3ab-45bd-97cf-983390abff7c"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3c8c31be-3f31-4275-80f4-3bdba96993eb"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6d376d8c-fa9e-4fc6-a949-d2284bdcf4c2"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -863,6 +978,9 @@ public partial class @BulletJam : IInputActionCollection2, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
+        m_Player_SwapWeaponRight = m_Player.FindAction("SwapWeaponRight", throwIfNotFound: true);
+        m_Player_SwapWeaponLeft = m_Player.FindAction("SwapWeaponLeft", throwIfNotFound: true);
+        m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -937,6 +1055,9 @@ public partial class @BulletJam : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_Fire;
+    private readonly InputAction m_Player_SwapWeaponRight;
+    private readonly InputAction m_Player_SwapWeaponLeft;
+    private readonly InputAction m_Player_Dash;
     public struct PlayerActions
     {
         private @BulletJam m_Wrapper;
@@ -944,6 +1065,9 @@ public partial class @BulletJam : IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
+        public InputAction @SwapWeaponRight => m_Wrapper.m_Player_SwapWeaponRight;
+        public InputAction @SwapWeaponLeft => m_Wrapper.m_Player_SwapWeaponLeft;
+        public InputAction @Dash => m_Wrapper.m_Player_Dash;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -962,6 +1086,15 @@ public partial class @BulletJam : IInputActionCollection2, IDisposable
                 @Fire.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
                 @Fire.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
                 @Fire.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
+                @SwapWeaponRight.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwapWeaponRight;
+                @SwapWeaponRight.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwapWeaponRight;
+                @SwapWeaponRight.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwapWeaponRight;
+                @SwapWeaponLeft.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwapWeaponLeft;
+                @SwapWeaponLeft.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwapWeaponLeft;
+                @SwapWeaponLeft.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwapWeaponLeft;
+                @Dash.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDash;
+                @Dash.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDash;
+                @Dash.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDash;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -975,6 +1108,15 @@ public partial class @BulletJam : IInputActionCollection2, IDisposable
                 @Fire.started += instance.OnFire;
                 @Fire.performed += instance.OnFire;
                 @Fire.canceled += instance.OnFire;
+                @SwapWeaponRight.started += instance.OnSwapWeaponRight;
+                @SwapWeaponRight.performed += instance.OnSwapWeaponRight;
+                @SwapWeaponRight.canceled += instance.OnSwapWeaponRight;
+                @SwapWeaponLeft.started += instance.OnSwapWeaponLeft;
+                @SwapWeaponLeft.performed += instance.OnSwapWeaponLeft;
+                @SwapWeaponLeft.canceled += instance.OnSwapWeaponLeft;
+                @Dash.started += instance.OnDash;
+                @Dash.performed += instance.OnDash;
+                @Dash.canceled += instance.OnDash;
             }
         }
     }
@@ -1134,6 +1276,9 @@ public partial class @BulletJam : IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
+        void OnSwapWeaponRight(InputAction.CallbackContext context);
+        void OnSwapWeaponLeft(InputAction.CallbackContext context);
+        void OnDash(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

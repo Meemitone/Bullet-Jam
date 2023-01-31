@@ -1,11 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement Info")]
     public float speed;
+    public float lasTurnSpeed = 2;
+    private Vector3 motion;
+
+    [Header("Dash")]
+    public float distance = 2;
+    public bool dodging = false;
+    public float dashTime;
+    private Vector3 dashLocation;
 
 
     [Header("References")]
@@ -49,10 +58,20 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnMove(Vector2 moveInput)
     {
+        if (dodging)
+        {
+            if (Vector3.Distance(transform.position, dashLocation) > 0.5f)
+                transform.position = Vector3.Lerp(transform.position, dashLocation, dashTime * Time.deltaTime);
+            else
+                dodging = false;
 
-        Vector3 motion = new Vector3(moveInput.x * speed * Time.deltaTime, 0, moveInput.y * speed * Time.deltaTime);
+        }
+        else
+        {
+            motion = new Vector3(moveInput.x * speed * Time.deltaTime, 0, moveInput.y * speed * Time.deltaTime);
 
-        playerControl.Move(motion);
+            playerControl.Move(motion);
+        }
 
     }
 
@@ -61,7 +80,50 @@ public class PlayerMovement : MonoBehaviour
 
         Quaternion lookRoatation = Quaternion.LookRotation(new Vector3(lookInput.x, 0, lookInput.y), Vector3.up);
 
-        transform.rotation = lookRoatation;
+        if(GetComponent<PlayerGun>().laserActive)
+        {
+            transform.rotation = Quaternion.Lerp(transform.rotation, lookRoatation, lasTurnSpeed * Time.deltaTime);
+            return;
+        }
+        if(!dodging)
+            transform.rotation = lookRoatation;
+
+    }
+
+    public void Dodge(InputAction.CallbackContext context)
+    {
+
+        RaycastHit hit;
+        if (context.phase.ToString() == "Started" && !dodging)
+        {
+            float dashDistance = distance;
+            playerControl.Move(new Vector3());
+
+            if (motion != new Vector3(0, 0, 0))
+            {
+                Vector3 directionFinder = Vector3.ClampMagnitude(motion, 1);
+                transform.rotation = Quaternion.LookRotation(directionFinder);
+            }
+            if (Physics.Raycast(transform.position + new Vector3(0, 1, 0), transform.forward, out hit, distance + 0.2f, GetComponent<PlayerGun>().wall))
+            {
+                Debug.Log(hit.transform.name);
+                dashDistance = hit.distance - 0.7f;
+
+                if (dashDistance < 0.5f)
+                    return;
+            }
+            dashLocation = transform.position + transform.forward * dashDistance;
+            dodging = true;
+
+            Debug.Log(Vector3.Distance(transform.position, dashLocation) + " : " + dashDistance);
+        }
+
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+
+        dodging = false;
 
     }
 
