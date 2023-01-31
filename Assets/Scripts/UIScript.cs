@@ -28,8 +28,12 @@ public class UIScript : MonoBehaviour
 
     [Header("Info")]
     public bool paused = false;
+    public static UIScript Instance { get; private set; }
 
-    
+    private void Awake()
+    {
+        Instance = this;
+    }
     
     // Start is called before the first frame update
     void Start()
@@ -41,11 +45,11 @@ public class UIScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Tab)){pauseGame();} // the button above tab
+        if(Input.GetKeyDown(KeyCode.Tab)){PauseGame();} // the button above tab
         UiUpdate();
     }
 
-    public void pauseGame()
+    public void PauseGame()
     {
         paused = !paused; // switches the pause state
         menu.SetActive(paused);
