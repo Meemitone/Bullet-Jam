@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 7516005390317787823}
   - component: {fileID: 6030109418655933196}
   - component: {fileID: 5552626061050617388}
+  - component: {fileID: 2809369192526922496}
   m_Layer: 7
   m_Name: SMG Bullet
   m_TagString: Untagged
@@ -664,8 +665,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.099999994, y: 0.3635826, z: 0.08660256}
-  m_Center: {x: 0.0000000018626451, y: -0.000000014901165, z: 0}
+  m_Size: {x: 0.099999994, y: 0.3635826, z: 1.4379113}
+  m_Center: {x: 0, y: -0.000000011462433, z: -0.001728382}
 --- !u!54 &5552626061050617388
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -682,3 +683,16 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &2809369192526922496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1843281726438518006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2f469d904fdc412c8b67de1ae32aacb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 1
