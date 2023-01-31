@@ -54,6 +54,8 @@ public class PlayerMovement : MonoBehaviour
 
             OnLook(look);
         }
+
+        transform.position = new Vector3(transform.position.x, 0, transform.position.z);
     }
 
     public void OnMove(Vector2 moveInput)
@@ -104,7 +106,7 @@ public class PlayerMovement : MonoBehaviour
                 Vector3 directionFinder = Vector3.ClampMagnitude(motion, 1);
                 transform.rotation = Quaternion.LookRotation(directionFinder);
             }
-            if (Physics.Raycast(transform.position + new Vector3(0, 1, 0), transform.forward, out hit, distance + 0.2f, GetComponent<PlayerGun>().wall))
+            if (Physics.Raycast(transform.position + new Vector3(0, 1, 0), transform.forward, out hit, distance + 0.2f))
             {
                 Debug.Log(hit.transform.name);
                 dashDistance = hit.distance - 0.7f;
@@ -116,6 +118,7 @@ public class PlayerMovement : MonoBehaviour
             dodging = true;
 
             Debug.Log(Vector3.Distance(transform.position, dashLocation) + " : " + dashDistance);
+
         }
 
     }
