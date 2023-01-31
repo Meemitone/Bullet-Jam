@@ -2,20 +2,44 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Default_Enemy_Behaviour : MonoBehaviour
 {
     public Gun_Controller gun;
-    public int State = 0;
-    public Vector3 centerpos;
-    private Vector3 target;
-    public float outersize;
     private float time = 0;
-    private float stoptime = 0;
-    public float TimeToStop = 1;
-    private float speed = 1;
-    private float ResumeTime = 0;
+    private float stopTime = 0;
+    private float resumeTime = 0;
+    public float timeToStop = 1;
+    public float speed = 1;
     public float TimeToResume = 1;
+
+    public float minPlayerDist, maxPlayerDist;
+
+
+
+
+
+
+
+
+
+
+    private GameObject player;
+    private NavMeshAgent Agent;
+    private Vector3 moveTarget;
+    public enum EnemyStates
+    {
+        IDLE,
+        STOP,
+        FIRING,
+        RESUME,
+        PATROL,
+        COMBAT,
+        TURNTOFACE
+    }
+
+    public EnemyStates state;
     /*
      * Possible Enemy States
      *      Patroling
@@ -24,64 +48,98 @@ public class Default_Enemy_Behaviour : MonoBehaviour
      *      Resuming
      * */
 
+
+    /*
+     * Laser deets
+     * need system to take damage from laser, and cooldown on damage
+     * */
+
     // Start is called before the first frame update
     void Start()
     {
-        centerpos = transform.position;
         gun = GetComponentInChildren<Gun_Controller>();
+        GameObject[] Group = FindObjectsOfType<GameObject>();
+        player = null;
+        foreach (GameObject g in Group)
+        {
+            if (g.CompareTag("Player"))
+                player = g;
+        }
+        if (player == null)
+        {
+            Debug.Log("Enemy can't find player");
+            Destroy(transform.parent.gameObject);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (State == 0)
+
+
+
+
+        //below is original slide and shoot commented out
         {
-            time += Time.deltaTime;
-            float movZ = outersize * Mathf.Sin(time);
-            Vector3 difference = new Vector3(0, 0, movZ);
-            target = centerpos + difference;
-            if(gun.State == 0)
+            /* Original Test Code (move back and forth and stop to fire bullets
+            if (State == 0)
             {
-                State = 1;
+                time += Time.deltaTime;
+                float movZ = outersize * Mathf.Sin(time);
+                Vector3 difference = new Vector3(0, 0, movZ);
+                target = centerpos + difference;
+                if(gun.State == 0)
+                {
+                    State = 1;
+                }
             }
-        }
-        else if(State == 1)
-        {
-            stoptime += Time.deltaTime;
-            stoptime = Mathf.Clamp(stoptime, 0, TimeToStop);
-            time += Time.deltaTime * (TimeToStop - stoptime) / (TimeToStop);
-            float movZ = outersize * Mathf.Sin(time);
-            Vector3 difference = new Vector3(0, 0, movZ);
-            target = centerpos + difference;
-            if(stoptime == TimeToStop)
+            else if(State == 1)
             {
-                State = 2;
-                gun.Fire();
-                stoptime = 0;
+                stoptime += Time.deltaTime;
+                stoptime = Mathf.Clamp(stoptime, 0, timeToStop);
+                time += Time.deltaTime * (timeToStop - stoptime) / (timeToStop);
+                float movZ = outersize * Mathf.Sin(time);
+                Vector3 difference = new Vector3(0, 0, movZ);
+                target = centerpos + difference;
+                if(stoptime == timeToStop)
+                {
+                    State = 2;
+                    gun.Fire();
+                    stoptime = 0;
+                }
             }
-        }
-        else if (State == 2)
-        {
-            if (gun.State < 2)
+            else if (State == 2)
             {
-                State = 3;
+                if (gun.State < 2)
+                {
+                    State = 3;
+                }
             }
-        }
-        else if (State == 3)
-        {
-            ResumeTime += Time.deltaTime;
-            ResumeTime = Mathf.Clamp(ResumeTime, 0, TimeToResume);
-            time += Time.deltaTime * (ResumeTime) / (TimeToResume);
-            float movZ = outersize * Mathf.Sin(time);
-            Vector3 difference = new Vector3(0, 0, movZ);
-            target = centerpos + difference;
-            if (ResumeTime == TimeToStop)
+            else if (State == 3)
             {
-                State = 0;
-                ResumeTime = 0;
+                ResumeTime += Time.deltaTime;
+                ResumeTime = Mathf.Clamp(ResumeTime, 0, TimeToResume);
+                time += Time.deltaTime * (ResumeTime) / (TimeToResume);
+                float movZ = outersize * Mathf.Sin(time);
+                Vector3 difference = new Vector3(0, 0, movZ);
+                target = centerpos + difference;
+                if (ResumeTime == timeToStop)
+                {
+                    State = 0;
+                    ResumeTime = 0;
+                }
             }
+            transform.position = Vector3.Lerp(transform.position, target, speed);
+            */
         }
-        transform.position = Vector3.Lerp(transform.position, target, speed);
+    }
+
+    private Vector3 GetTargetPos()
+    {
+
+
+
+        return Vector3.zero;
     }
 
 }
