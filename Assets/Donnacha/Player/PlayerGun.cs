@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerGun : MonoBehaviour
 {
@@ -13,20 +14,32 @@ public class PlayerGun : MonoBehaviour
     public List<GameObject> bulletPrefabs = new List<GameObject>();
     private GameObject bulletHolder;
 
-    public float laserTime, shotgunTime, smgTime;
-    private float diviation;
+
+    private int gunIndex = 0;
+    private List<string> gunsActive = new List<string>();
 
     private bool firing;
     private bool reloading;
 
-    [Header ("Laser Info")]
-    private Vector3 laserPos;
-    private bool laserActive;
+    [Header("Laser Info")]
+    public bool laserActive;
     public GameObject laserHit;
     public float laserSpeed;
+    public float laserUpTime;
     private LineRenderer laserLine;
     private List<GameObject> laserHits = new List<GameObject>();
-    
+    private Transform laserPos;
+
+    [Header("SMG Info")]
+    public float maxDiviation;
+    public float diviationMulti;
+    public float smgBulletSpeed;
+    public float smgFireRate;
+    private float diviation;
+
+    [Header("Shotgun Info")]
+    public float shotgunFireRate;
+
 
     [Header("References")]
     public Transform firePoint;
@@ -42,6 +55,11 @@ public class PlayerGun : MonoBehaviour
 
         laserLine = firePoint.GetComponent<LineRenderer>();
         laserLine.enabled = false;
+
+        laserPos = GameObject.Instantiate(new GameObject()).transform;
+
+        gunsActive.Add("Shotgun");
+        currentGun = WhichGun.shotgun;
 
     }
 
@@ -59,12 +77,12 @@ public class PlayerGun : MonoBehaviour
             case (WhichGun.shotgun):
                 GameObject firing = GameObject.Instantiate(bulletPrefabs[0], firePoint);
                 firing.GetComponent<Shotgun>().Fire(bulletHolder, firePoint);
-                Invoke(nameof(FiringEnd), shotgunTime);
+                Invoke(nameof(FiringEnd), shotgunFireRate);
                 break;
             case (WhichGun.smg):
-                GameObject bullet = GameObject.Instantiate(bulletPrefabs[1], firePoint.position, firePoint.rotation * Quaternion.Euler(90, 0, Random.Range(-diviation, diviation)));
-                bullet.GetComponent<Rigidbody>().velocity = transform.forward * 20;
-                Invoke(nameof(FiringEnd), smgTime);
+                GameObject bullet = GameObject.Instantiate(bulletPrefabs[1], firePoint.position, firePoint.rotation * Quaternion.Euler(90, 0, Random.Range(-diviation, diviation)), bulletHolder.transform);
+                bullet.GetComponent<Rigidbody>().velocity = bullet.transform.up * smgBulletSpeed;
+                Invoke(nameof(FiringEnd), smgFireRate);
                 break;
             case (WhichGun.laser):
                 LaserBegin();
@@ -77,14 +95,14 @@ public class PlayerGun : MonoBehaviour
     private void LaserBegin()
     {
 
-        laserPos = firePoint.position;
+        laserPos.position = firePoint.position;
         laserLine.SetPosition(0, firePoint.position);
-        laserLine.SetPosition(1, laserPos);
+        laserLine.SetPosition(1, laserPos.position);
 
         laserLine.enabled = true;
 
         laserActive = true;
-        Invoke(nameof(LaserEnd), laserTime);
+        Invoke(nameof(LaserEnd), laserUpTime);
 
     }
 
@@ -105,7 +123,18 @@ public class PlayerGun : MonoBehaviour
     private void Update()
     {
         if (GetComponent<PlayerMovement>().inputSystem.Player.Fire.IsPressed())
+        {
             Firegun();
+
+            if (currentGun == WhichGun.smg && diviation < maxDiviation)
+            {
+                diviation += diviationMulti * Time.deltaTime;
+                if (diviation > maxDiviation)
+                    diviation = maxDiviation;
+            }
+        }
+        else
+            diviation = 0;
     }
 
     private void FixedUpdate()
@@ -115,15 +144,17 @@ public class PlayerGun : MonoBehaviour
         {
             RaycastHit hit;
 
-            if(Physics.Raycast(firePoint.position, firePoint.forward, out hit/*, wall*/))
+            if(Physics.Raycast(firePoint.position, firePoint.forward, out hit, wall))
             {
-                float laserDistance = Vector3.Distance(firePoint.position, laserPos);
+                float laserDistance = Vector3.Distance(firePoint.position, laserPos.position);
                 if (laserDistance < hit.distance)
-                    laserPos = Vector3.Lerp(laserPos, hit.point, Time.deltaTime * laserSpeed);
+                    laserPos.position = Vector3.Lerp(laserPos.position, hit.point, Time.deltaTime * laserSpeed);
                 else if (laserDistance > hit.distance)
-                    laserPos = hit.point;
+                    laserPos.position = hit.point;
 
                 RaycastHit[] hits = Physics.SphereCastAll(firePoint.position, 0.175f, firePoint.forward, laserDistance);
+                RaycastHit[] hits1 = Physics.SphereCastAll(laserPos.position, laserLine.startWidth / 2, -firePoint.forward, laserDistance);
+
                 int i = 0;
                 foreach(RaycastHit touch in hits)
                 {
@@ -140,6 +171,16 @@ public class PlayerGun : MonoBehaviour
 
                     i++;
                 }
+                foreach (RaycastHit touch in hits1)
+                {
+
+                    if (laserHits.Count <= i)
+                        laserHits.Add(GameObject.Instantiate(laserHit));
+                    laserHits[i].transform.position = touch.point;
+                    laserHits[i].transform.rotation = Quaternion.LookRotation(touch.normal);
+
+                    i++;
+                }
                 int saveIndex = i;
                 foreach(GameObject las in laserHits)
                     if(laserHits.IndexOf(las) == i)
@@ -153,10 +194,58 @@ public class PlayerGun : MonoBehaviour
             }
 
             laserLine.SetPosition(0, firePoint.position);
-            laserLine.SetPosition(1, laserPos);
+            laserLine.SetPosition(1, laserPos.position);
 
         }
 
+    }
+
+    public void OnSwapWeaponRight(InputAction.CallbackContext action)
+    {
+        if(action.phase.ToString() == "Started" && !firing)
+        {
+            if (gunIndex < 3 - 1)
+                gunIndex++;
+            else
+                gunIndex = 0;
+
+            switch (gunIndex)
+            {
+                default:
+                    currentGun = WhichGun.shotgun;
+                    break;
+                case (1):
+                    currentGun = WhichGun.smg;
+                    break;
+                case (2):
+                    currentGun = WhichGun.laser;
+                    break;
+            }
+        }
+    }
+
+    public void OnSwapWeaponLeft(InputAction.CallbackContext action)
+    {
+        if (action.phase.ToString() == "Started" && !firing)
+        {
+            if (gunIndex > 0)
+                gunIndex--;
+            else
+                gunIndex = 2;
+
+            switch (gunIndex)
+            {
+                default:
+                    currentGun = WhichGun.shotgun;
+                    break;
+                case (1):
+                    currentGun = WhichGun.smg;
+                    break;
+                case (2):
+                    currentGun = WhichGun.laser;
+                    break;
+            }
+        }
     }
 
 }
