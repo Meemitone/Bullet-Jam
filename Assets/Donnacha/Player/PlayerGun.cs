@@ -170,7 +170,7 @@ public class PlayerGun : MonoBehaviour
 
     private void Update()
     {
-        if (UIScript.Instance.paused)
+        if ( UIScript.Instance != null && UIScript.Instance.paused)
             return;
 
         if (GetComponent<PlayerMovement>().inputSystem.Player.Fire.IsPressed())
