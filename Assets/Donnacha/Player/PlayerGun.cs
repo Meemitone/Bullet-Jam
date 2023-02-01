@@ -158,7 +158,7 @@ public class PlayerGun : MonoBehaviour
 
     }
 
-    private void LaserEnd()
+    public void LaserEnd()
     {
         foreach(GameObject las in laserHits)
         {

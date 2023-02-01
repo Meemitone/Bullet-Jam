@@ -21,6 +21,12 @@ public class PlayerMovement : MonoBehaviour
     public int healthCurrent;
     private bool invincible = false;
     public float iFrames = 0.7f; [Tooltip("Invincibility over time")]
+    [Header("")]
+    [Header("Item Pick Ups")]
+    public int heal = 2;
+    public int smgAmmo = 15;
+    public int laserAmmo = 2;
+
     [Header ("")]
     [Header("References")]
     private CharacterController playerControl;
@@ -153,6 +159,7 @@ public class PlayerMovement : MonoBehaviour
             //finds where the dash will finish
             dashLocation = transform.position + transform.forward * dashDistance;
             dodging = true;
+            GetComponent<PlayerGun>().LaserEnd();
         }
 
     }
@@ -180,18 +187,21 @@ public class PlayerMovement : MonoBehaviour
 
         if(other.gameObject.tag == "Object Pickup")
         {
-
-            switch (other.gameObject.name)
+            string firstLetters = other.gameObject.name[0].ToString() + other.gameObject.name[1].ToString();
+            switch (firstLetters)
             {
 
                 default:
                     Debug.Log("Failed Object Check");
                     break;
-                case ("Health"):
+                case ("HP"):
+                    HealthChange(heal);
                     break;
-                case ("SMG"):
+                case ("SM"):
+                    GetComponent<PlayerGun>().smgInventoryAmmo += smgAmmo;
                     break;
-                case ("Laser"):
+                case ("LA"):
+                    GetComponent<PlayerGun>().laserInventoryAmmo += laserAmmo;
                     break;
 
             }
