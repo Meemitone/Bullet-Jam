@@ -224,7 +224,7 @@ public class PlayerGun : MonoBehaviour
                     laserHits[i].transform.rotation = Quaternion.LookRotation(touch.normal);
                     laserHits[i].name = touch.transform.name + " Sparks";
 
-                    if(touch.transform.gameObject.layer == LayerMask.NameToLayer("Enemy Bullet"))
+                    if(touch.transform.gameObject.layer == LayerMask.NameToLayer("Enemy"))
                     {
                         touch.transform.GetComponent<LaserMail>().LaserDamage(totalDamageOverUptime / laserUpTime);
                     }
@@ -318,18 +318,13 @@ public class PlayerGun : MonoBehaviour
 
     public void RIPANDTEAR(InputAction.CallbackContext action)
     {
-
-
         if(currentGun == WhichGun.shotgun && !chainsawing && UIScript.Instance.chainsawCharge >= 1f  && action.phase.ToString() == "Started" && !GetComponent<PlayerMovement>().dodging) 
         {
-
             UIScript.Instance.chainsawCharge = 0;
             chainsawing = true;
 
             GetComponent<PlayerMovement>().playerAnim.SetTrigger("Rip and Tear");
-
         }
-
     }
 
 }
