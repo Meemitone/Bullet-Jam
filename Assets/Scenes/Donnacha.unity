@@ -1120,21 +1120,9 @@ PrefabInstance:
       propertyPath: playerCam
       value: 
       objectReference: {fileID: 6310979}
-    - target: {fileID: 5607722683059589276, guid: 7e8d71a7e4b48427db1ce9ddfe4676cf, type: 3}
-      propertyPath: currentGun
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5607722683059589479, guid: 7e8d71a7e4b48427db1ce9ddfe4676cf, type: 3}
       propertyPath: m_Name
       value: Player v1.0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6548397762498815492, guid: 7e8d71a7e4b48427db1ce9ddfe4676cf, type: 3}
-      propertyPath: m_ApplyRootMotion
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7661716173176010127, guid: 7e8d71a7e4b48427db1ce9ddfe4676cf, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7e8d71a7e4b48427db1ce9ddfe4676cf, type: 3}
