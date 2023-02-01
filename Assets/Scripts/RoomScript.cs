@@ -10,11 +10,11 @@ public class RoomScript : MonoBehaviour
     public GameObject[] plannedEnemies;
     public int MaxEnemies = 3;
     public bool bossfight = false;
+    public bool roomActive = false;
     
     [Header("dont worry about it")]
     public int enemyIndex;
     public PlayerMovement player;
-    public bool roomActive = false;
     public List<GameObject> spawnedEnemies;
     
     public GameObject[] allSpawners;
@@ -48,11 +48,17 @@ public class RoomScript : MonoBehaviour
         allDoors = GameObject.FindGameObjectsWithTag("Door");
         for (int i = 0; i < allDoors.Length; i++)
         {
-            if (allDoors[i].transform.position.x - transform.position.x < xDist && allDoors[i].transform.position.z - transform.position.z < zDist)
+            if (allDoors[i].transform.position.x - transform.position.x > -xDist && allDoors[i].transform.position.x - transform.position.x < xDist &&
+                allDoors[i].transform.position.z - transform.position.z > -zDist && allDoors[i].transform.position.z - transform.position.z < zDist)
             {
                 doors.Add(allDoors[i]);
-                doors[i].SetActive(false);
+                
             }
+        }
+
+        for (int i = 0; i < doors.Count; i++)
+        {
+            doors[i].SetActive(false);
         }
         
         
@@ -78,7 +84,7 @@ public class RoomScript : MonoBehaviour
                 if (bossfight && enemyIndex == plannedEnemies.Length) enemyIndex = 0;
             }
 
-            if (enemyIndex == plannedEnemies.Length)
+            if (spawnedEnemies.Count ==                                        0)
             {
                 roomActive = false;
                 for (int i = 0; i < doors.Count; i++)
@@ -103,21 +109,21 @@ public class RoomScript : MonoBehaviour
         }
 
         float rand = Random.Range(0, 1f);
-        print(rand + "rand");
+        //print(rand + "rand");
         for (int i = 0; i < spawners.Count; i++)
         {
             spawnChances[i] = distancesToPlayer[i] / totalDist * 1f; // finds out the chance of using a particular spawner, greater distances have higher chances
             float thisChance = spawnChances[i];
-            print(thisChance + " spawn chance un, added for spawner " + i);
+            //print(thisChance + " spawn chance un, added for spawner " + i);
             for (int j = 0; j < i; j++)
             {
                 thisChance += spawnChances[j]; // if rand is less than this chance + all chances below this, so for a 60% chance is after a 10% chance, use that one instead
             }
-            print(thisChance + "b");
+           // print(thisChance + "b");
             if (rand < thisChance)
             {
                 spawnPos = spawners[i].transform.position;
-                print("spawned at spawner "+i);
+               // print("spawned at spawner "+i);
                 break;
             }
         }
@@ -131,7 +137,7 @@ public class RoomScript : MonoBehaviour
         
         if (other.gameObject.tag == "Player")
         {
-            print("Activate");
+           // print("Activate");
             for (int i = 0; i < doors.Count; i++)
             {
                 doors[i].SetActive(true);
