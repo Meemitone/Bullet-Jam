@@ -11,11 +11,10 @@ public class PlayerGun : MonoBehaviour
     [Header("Guns and Bullets")]
     public WhichGun currentGun; [Tooltip("Don't touch use bumpers/ E & Q")]
     public List<GameObject> bulletPrefabs = new List<GameObject>(); [Tooltip("Index 0 = Shotgun | Index 1 = SMG")]
-    private GameObject bulletHolder; 
+    private GameObject bulletHolder;
 
-
-    private int gunIndex = 0;
-    private int gunCount = 1;
+    public int gunIndex = 0;
+    public int gunCount = 1;
 
     private bool firing;
     private bool reloading;
@@ -25,6 +24,7 @@ public class PlayerGun : MonoBehaviour
     public GameObject laserHit;
     public float laserSpeed;
     public float laserUpTime; [Tooltip("How long laser lasts in total")]
+    public float totalDamageOverUptime; [Tooltip("Total damage over Uptime")]
     private LineRenderer laserLine;
     private List<GameObject> laserHits = new List<GameObject>();
     private Transform laserPos;
@@ -203,7 +203,7 @@ public class PlayerGun : MonoBehaviour
                 laserLine.SetPosition(0, firePoint.position);
                 laserLine.SetPosition(1, laserPos.position);
 
-                RaycastHit[] hits = Physics.SphereCastAll(firePoint.position, laserLine.startWidth / 2, firePoint.forward, laserDistance, layerMask: sparksMask);
+                RaycastHit[] hits = Physics.SphereCastAll(firePoint.position, laserLine.startWidth / 2, firePoint.forward, laserDistance+0.3f, layerMask: sparksMask);
                 RaycastHit[] hits1 = Physics.SphereCastAll(laserPos.position + -firePoint.forward * laserLine.startWidth, laserLine.startWidth / 2, -firePoint.forward, laserDistance, layerMask: sparksMask);
 
                 if (hits.Length == 0)
@@ -218,9 +218,10 @@ public class PlayerGun : MonoBehaviour
                     laserHits[i].transform.rotation = Quaternion.LookRotation(touch.normal);
                     laserHits[i].name = touch.transform.name + " Sparks";
 
-                    if(touch.transform.tag == "Enemy")
+                    if(touch.transform.gameObject.layer == LayerMask.NameToLayer("Enemy Bullet"))
                     {
                         //damage enemy
+
                     }
 
                     i++;

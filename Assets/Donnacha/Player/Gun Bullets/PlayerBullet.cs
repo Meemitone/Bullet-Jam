@@ -15,6 +15,13 @@ public class PlayerBullet : MonoBehaviour
 
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+
+        Invoke(nameof(DeleteMe), 0.05f);
+
+    }
+
     private void DeleteMe()
     {
         Destroy(gameObject);
