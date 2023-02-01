@@ -76,7 +76,7 @@ public class BabuBehaviour : MonoBehaviour
                 transform.rotation = Quaternion.Slerp(transform.rotation, playerLook, 0.3f);
                 RaycastHit shootChecker = new RaycastHit();
                 Physics.Raycast(transform.position, player.transform.position - transform.position, out shootChecker, (player.transform.position - transform.position).magnitude);
-                if (shootChecker.collider.gameObject == player) //did we hit the player when targeted?
+                if (shootChecker.collider.gameObject == player || Vector3.Distance(transform.position, player.transform.position) < 0.1) //did we hit the player when targeted?
                 {
                     //fire
                     if (callOfDutyShootAMan())
@@ -210,7 +210,7 @@ public class BabuBehaviour : MonoBehaviour
         StrafeTarget(0);
             return States.Strafe;
     }
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
         if (LayerMask.NameToLayer("Player Bullets") != other.gameObject.layer && state != States.Empty && state != States.Die)
         {
