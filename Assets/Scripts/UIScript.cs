@@ -35,8 +35,6 @@ public class UIScript : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        player = FindObjectOfType<PlayerMovement>();
-        gun = FindObjectOfType<PlayerGun>();
     }
     
     // Start is called before the first frame update
