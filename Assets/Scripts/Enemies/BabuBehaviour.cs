@@ -123,8 +123,8 @@ public class BabuBehaviour : MonoBehaviour
                 break;
 
             case States.Die:
-                GetComponentInChildren<Animator>().enabled = false;//deactivate the animator
-
+                //GetComponentInChildren<Animator>().enabled = false;//deactivate the animator
+                anim.SetTrigger("BabySpiderDeath");
                 if (GetComponentInChildren<SphereCollider>()!=null)
                 {
                     GetComponentInChildren<SphereCollider>().enabled = true; 

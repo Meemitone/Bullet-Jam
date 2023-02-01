@@ -146,6 +146,7 @@ public class SpiderMommyBehaviour : MonoBehaviour
 
             case States.Die:
                 StartCoroutine(Death());
+                //add go to death anim
                 state = States.Empty;
                 break;
 
