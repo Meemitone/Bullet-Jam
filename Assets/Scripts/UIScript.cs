@@ -18,14 +18,14 @@ public class UIScript : MonoBehaviour
     public Image chainsawChargeImage;
     public Image chainsawGlow;
     public Image[] weaponLights;
-    
-    [Header("Numbers")]
+
+    [Header("Numbers")] 
+    public int weaponCount = 1;
     public int weaponIndex = 0;
     public int playerHealth = 8;
     public float chainsawCharge = 0;
     public int smgClip = 0;
     public int smgAmmo = 0;
-    public int laserClip = 0;
     public int laserAmmo = 0;
 
     [Header("Info")]
@@ -35,8 +35,6 @@ public class UIScript : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        player = FindObjectOfType<PlayerMovement>();
-        gun = FindObjectOfType<PlayerGun>();
     }
     
     // Start is called before the first frame update
@@ -49,6 +47,7 @@ public class UIScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        THENUMBERSMASON();
         if(Input.GetKeyDown(KeyCode.Tab)){PauseGame();} // the button above tab
         UiUpdate();
     }
@@ -118,10 +117,20 @@ public class UIScript : MonoBehaviour
                 break;
             case 2:
 
-                ammoText.text = laserClip + "/" + laserAmmo;
+                ammoText.text = laserAmmo.ToString();
                 ammoText.gameObject.transform.localScale = new Vector3(0.5f, 0.5f,1);
                 break;
         }
 
+    }
+
+    void THENUMBERSMASON()
+    {
+        weaponIndex = gun.gunIndex;
+        weaponCount = gun.gunCount;
+        playerHealth = player.healthCurrent;
+        smgClip = gun.smgAmmoCurrent;
+        smgAmmo = gun.smgInventoryAmmo;
+        laserAmmo = gun.laserInventoryAmmo;
     }
 }
