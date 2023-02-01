@@ -6,13 +6,17 @@ using Random = UnityEngine.Random;
 
 public class RoomScript : MonoBehaviour
 {
+    [Header("Needed info")]
+    public GameObject[] plannedEnemies;
+    public int MaxEnemies = 3;
+    public bool bossfight = false;
+    
+    [Header("dont worry about it")]
+    public int enemyIndex;
     public PlayerMovement player;
     public bool roomActive = false;
-    public GameObject[] plannedEnemies;
     public List<GameObject> spawnedEnemies;
-    public int enemyIndex;
-    public int MaxEnemies = 3;
-
+    
     public GameObject[] allSpawners;
     public List<GameObject> spawners;
     public GameObject[] allDoors;
@@ -28,11 +32,14 @@ public class RoomScript : MonoBehaviour
             
         float xDist = gameObject.transform.localScale.x/2;
         float zDist = gameObject.transform.localScale.z/2;
+        //Gizmos.DrawCube(transform.position,new Vector3(xDist,50,zDist));
         
         allSpawners = GameObject.FindGameObjectsWithTag("Spawner");
         for (int i = 0; i < allSpawners.Length; i++)
         {
-            if (allSpawners[i].transform.position.x - transform.position.x < xDist && allSpawners[i].transform.position.z - transform.position.z < zDist)
+            //float xDist = Vector3.Distance()
+            if (allSpawners[i].transform.position.x - transform.position.x > -xDist && allSpawners[i].transform.position.x - transform.position.x < xDist &&
+                allSpawners[i].transform.position.z - transform.position.z > -zDist && allSpawners[i].transform.position.z - transform.position.z < zDist)
             {
                 spawners.Add(allSpawners[i]);
             }
@@ -56,10 +63,19 @@ public class RoomScript : MonoBehaviour
     {
         if (roomActive)
         {
+            for (int j = 0; j < spawnedEnemies.Count; j++)
+            {
+                if (spawnedEnemies[j].gameObject == null)
+                {
+                    spawnedEnemies.Remove(spawnedEnemies[j]);
+                }
+            }
+            
             if (spawnedEnemies.Count < MaxEnemies && enemyIndex < plannedEnemies.Length)
             {
                 spawnEnemy();
                 enemyIndex++;
+                if (bossfight && enemyIndex == plannedEnemies.Length) enemyIndex = 0;
             }
 
             if (enemyIndex == plannedEnemies.Length)
@@ -83,23 +99,26 @@ public class RoomScript : MonoBehaviour
         for (int i = 0; i < spawners.Count; i++)
         {
             distancesToPlayer[i] = (spawners[i].transform.position - player.transform.position).magnitude; // finds the distances to player and adds them up
-            totalDist += distancesToPlayer[i];
+            totalDist += distancesToPlayer[i] *1f;
         }
 
         float rand = Random.Range(0, 1f);
+        print(rand + "rand");
         for (int i = 0; i < spawners.Count; i++)
         {
-            spawnChances[i] = distancesToPlayer[i] / totalDist; // finds out the chance of using a particular spawner, greater distances have higher chances
+            spawnChances[i] = distancesToPlayer[i] / totalDist * 1f; // finds out the chance of using a particular spawner, greater distances have higher chances
             float thisChance = spawnChances[i];
-            
+            print(thisChance + " spawn chance un, added for spawner " + i);
             for (int j = 0; j < i; j++)
             {
                 thisChance += spawnChances[j]; // if rand is less than this chance + all chances below this, so for a 60% chance is after a 10% chance, use that one instead
             }
-
+            print(thisChance + "b");
             if (rand < thisChance)
             {
                 spawnPos = spawners[i].transform.position;
+                print("spawned at spawner "+i);
+                break;
             }
         }
         

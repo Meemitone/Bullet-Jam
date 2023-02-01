@@ -25,6 +25,7 @@ public class UIScript : MonoBehaviour
     public int weaponIndex = 0;
     public int playerHealth = 8;
     public float chainsawCharge = 0;
+    public float chainsawChargeTime = 12.5f;
     public int smgClip = 0;
     public int smgAmmo = 0;
     public int laserAmmo = 0;
@@ -47,7 +48,7 @@ public class UIScript : MonoBehaviour
 
     private void FixedUpdate()
     {
-        chainsawCharge += 1 / (100 * 12.5f);
+        chainsawCharge += 1 / (100 * chainsawChargeTime);
     }
 
     // Update is called once per frame
