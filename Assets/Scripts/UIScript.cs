@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -42,6 +43,11 @@ public class UIScript : MonoBehaviour
     {
        Cursor.visible = false;
        Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    private void FixedUpdate()
+    {
+        chainsawCharge += 1 / (100 * 12.5f);
     }
 
     // Update is called once per frame
