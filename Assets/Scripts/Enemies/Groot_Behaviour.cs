@@ -164,6 +164,13 @@ public class Groot_Behaviour : MonoBehaviour
                 break;
 
             case States.Die:
+                float randmoval = Random.value;
+                if (randmoval <= 0.1)
+                    gun.Fire(8, true);
+                else if (randmoval <= 0.3)
+                    gun.Fire(9, true);
+                else if (randmoval <= 0.5)
+                    gun.Fire(10, true);
                 GetComponentInChildren<Animator>().enabled = false;//deactivate the animator
                 foreach (Transform c in anim.gameObject.transform)
                     c.gameObject.SetActive(!c.gameObject.activeSelf); //find each collider in this things children, ie groot upp and groot lower, and set them active

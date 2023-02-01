@@ -143,14 +143,25 @@ public class ChungusBehaviour : MonoBehaviour
 
             case States.Die:
                 GetComponentInChildren<Animator>().enabled = false;//deactivate the animator
+                float randmoval = Random.value;
+                    gun.Fire(8, true);
+                gun.transform.position += new Vector3(0,0.1f,0);
+                if (randmoval <= 0.4)
+                    gun.Fire(9, true);
+                else
+                    gun.Fire(10, true);
+                SphereCollider[] balls = GetComponents<SphereCollider>();
 
-                if (GetComponentInChildren<SphereCollider>() != null)
+                foreach (SphereCollider ball in balls)
                 {
-                    GetComponentInChildren<SphereCollider>().enabled = true;
+                    ball.enabled = true;
                 }
-                if (GetComponentInChildren<Rigidbody>() != null)
+
+                Rigidbody[] Members = GetComponentsInChildren<Rigidbody>();
+
+                foreach (Rigidbody dick in Members)
                 {
-                    GetComponentInChildren<Rigidbody>().isKinematic = false; //activate physics for the RB 
+                    dick.isKinematic = false;
                 }
 
                 transform.parent.DetachChildren();
@@ -242,7 +253,7 @@ public class ChungusBehaviour : MonoBehaviour
     }
     private void OnCollisionEnter(Collision other)
     {
-        if (LayerMask.NameToLayer("Player Bullets") == other.gameObject.layer && state != States.Empty && state != States.Die)
+        if ((LayerMask.NameToLayer("BulletKiller") == other.gameObject.layer || LayerMask.NameToLayer("Player Bullets") == other.gameObject.layer) && state != States.Empty && state != States.Die)
         {
             hp--;
             if (hp <= 0)
