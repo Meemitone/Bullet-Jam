@@ -36,6 +36,8 @@ public class PlayerMovement : MonoBehaviour
 
         healthCurrent = healthMax;
 
+        UIScript.Instance.player = this;
+        UIScript.Instance.gun = GetComponent<PlayerGun>();
     }
 
     private void OnEnable()
@@ -45,13 +47,6 @@ public class PlayerMovement : MonoBehaviour
     private void OnDisable()
     {
         inputSystem.Player.Disable();
-    }
-
-    private void Update()
-    {
-
-        
-
     }
 
     // Update is called once per frame
