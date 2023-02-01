@@ -30582,6 +30582,7 @@ MonoBehaviour:
   healthMax: 1
   healthCurrent: 1
   iFrames: 0
+  playerCam: {fileID: 0}
 --- !u!1001 &2088039424
 PrefabInstance:
   m_ObjectHideFlags: 0
