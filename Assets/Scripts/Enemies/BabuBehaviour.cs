@@ -174,16 +174,12 @@ public class BabuBehaviour : MonoBehaviour
         for (int i = 0; i < 4; i++)
         {
             dists[i] = Vector3.Distance(transform.position, targets[i]);
-            Debug.Log(i);
-            Debug.Log(dists[i]);
         }
         float mindist = Mathf.Min(dists);
         for (int i = 0; i < 4; i++)
         {
             if (dists[i] == mindist)
             {
-
-                Debug.Log(i);
                 NavMeshPath path = new NavMeshPath();
                 nav.SetDestination(targets[i]);
                 nav.CalculatePath(targets[i], path);

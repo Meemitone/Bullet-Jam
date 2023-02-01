@@ -69,8 +69,8 @@ public class ChungusBehaviour : MonoBehaviour
                 if (anim.GetCurrentAnimatorClipInfo(0)[0].clip.name != "GolemSpawn")
                     state = getNewState();
                 break;
-            case States.FindCover://ignore (if we end up here, go elsewhere)
-                state = getNewState();
+            case States.FindCover:
+                anim.SetTrigger("Attack2");
                 break;
 
             case States.Shoot:
