@@ -27,6 +27,8 @@ public class ChungusBehaviour : MonoBehaviour
     [SerializeField] private LaserMail mail;
     [SerializeField] private GameObject fist;
     [SerializeField] private GameObject FistBullet;
+    [SerializeField] private float timer;
+    [SerializeField] private float timerMax;
     private Quaternion playerLook;
     private float initacc;
 
@@ -91,7 +93,7 @@ public class ChungusBehaviour : MonoBehaviour
                 transform.rotation = Quaternion.Slerp(transform.rotation, playerLook, 0.3f);
                 RaycastHit shootChecker = new RaycastHit();
                 Physics.Raycast(transform.position, player.transform.position - transform.position, out shootChecker, (player.transform.position - transform.position).magnitude);
-                if (shootChecker.collider.gameObject == player || Vector3.Distance(transform.position, player.transform.position) < 3f) //did we hit the player when targeted?
+                if (shootChecker.collider.gameObject == player || Vector3.Distance(transform.position, player.transform.position) > 2f) //did we hit the player when targeted?
                 {
                     //fire
                     if (callOfDutyShootAMan())
@@ -126,13 +128,16 @@ public class ChungusBehaviour : MonoBehaviour
                 break;
 
             case States.Strafe:
-                nav.SetDestination(player.transform.position);
+                if(Vector3.Distance(nav.destination, player.transform.position) > 2f)
+                {
+                    nav.SetDestination(player.transform.position);
+                }
 
 
-
-                if (Vector3.Distance(nav.destination, transform.position) < 0.5)//if close enough to where was going
+                if (Vector3.Distance(nav.destination, transform.position) < 0.5f || Vector3.Distance(nav.destination, transform.position) > 4f)//if close enough to where was going or too far away
                 {
                     state = getNewState();//reroll priorities
+                    Debug.Log("strafe");    
                 }
                 break;
 
@@ -158,7 +163,10 @@ public class ChungusBehaviour : MonoBehaviour
             default:
                 break;
         }
-
+        if(Vector3.Distance(nav.destination, transform.position) < 1f)
+        {
+            nav.SetDestination(transform.position);
+        }
     }
 
     private void StrafeTarget(int attempt)
@@ -211,7 +219,8 @@ public class ChungusBehaviour : MonoBehaviour
     {
         if (gun.State == 0)
         {
-            gun.Fire();
+            gun.FireOnDelay(0.5f);
+            gun.State = 3;
             return true;
         }
         return false;
@@ -219,14 +228,16 @@ public class ChungusBehaviour : MonoBehaviour
 
     private States getNewState()
     {
-        if(state == States.Strafe && Vector3.Distance(transform.position, player.transform.position) < 2f)
+        if(state == States.Strafe && Vector3.Distance(transform.position, player.transform.position) < 3f)
         {
             //punch
             return States.FindCover;
         }
-        if (gun.State == 0)
+        if (gun.State == 0 && Vector3.Distance(transform.position, player.transform.position) > 3f)
             return States.Shoot;
         else
+
+            nav.SetDestination(player.transform.position);
             return States.Strafe;
     }
     private void OnCollisionEnter(Collision other)

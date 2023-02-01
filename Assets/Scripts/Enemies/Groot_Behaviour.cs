@@ -126,12 +126,13 @@ public class Groot_Behaviour : MonoBehaviour
                 break;
 
             case States.Firing:
+                anim.SetBool("Attack", true);
                 transform.rotation = Quaternion.Slerp(transform.rotation, playerLook, 0.3f);
                 nav.speed = 0;
                 nav.SetDestination(player.transform.position);
                 if (gun.State < 2)
                 {
-                    //animation bool turn off here
+                    anim.SetBool("Attack", false);
                     nav.speed = initacc;
                     nav.SetDestination(transform.position);
                     state = getNewState();
