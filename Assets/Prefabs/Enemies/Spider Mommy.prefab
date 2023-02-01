@@ -413,6 +413,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 601693178182137101}
     m_Modifications:
+    - target: {fileID: 1985727966509455058, guid: 91e4398fb03bd084a97ea7c8569850d8, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 905d17172cc021a4cb8166fec5dc010f, type: 2}
     - target: {fileID: 2101523049173984689, guid: 91e4398fb03bd084a97ea7c8569850d8, type: 3}
       propertyPath: m_Name
       value: Spider
