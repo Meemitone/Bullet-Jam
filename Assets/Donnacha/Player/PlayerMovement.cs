@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 dashLocation;
 
     [Header("Health")]
-    public int healthMax = 6;
+    public int healthMax = 8;
     public int healthCurrent;
     private bool invincible = false;
     public float iFrames = 0.7f; [Tooltip("Invincibility over time")]
@@ -152,10 +152,60 @@ public class PlayerMovement : MonoBehaviour
             //send health to UI
             invincible = true;
             Invoke(nameof(InvincibilityEnd), iFrames);
+            GetComponent<MeshRenderer>().material.color = Color.red;//marking player as hit change this to model mesh later 
+        }
+
+        if(other.gameObject.tag == "Object Pickup")
+        {
+
+            switch (other.gameObject.name)
+            {
+
+                default:
+                    Debug.Log("Failed Object Check");
+                    break;
+                case ("HealthPack"):
+                    break;
+                case ("SMGAmmo"):
+                    break;
+                case ("LaserBattery"):
+                    break;
+
+            }
+
+        }
+    }
+
+    private void HealthChange(int healthChange)
+    {
+
+        if(healthChange > 0 && healthCurrent != healthMax)
+        {
+            healthCurrent += healthChange;
+        }
+        else if (healthChange < 0)
+        {
+            healthCurrent += healthChange;
+        }
+
+        if(healthCurrent <= 0)
+        {
+            Die();
         }
 
     }
 
-    private void InvincibilityEnd() => invincible = false;
+    private void InvincibilityEnd()
+    {
+        invincible = false;
+        GetComponent<MeshRenderer>().material.color = Color.white; //marking end of iFrames change this to model mesh later 
+    }
+
+    public void Die()
+    {
+
+
+
+    }
 
 }

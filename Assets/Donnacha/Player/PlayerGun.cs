@@ -33,22 +33,23 @@ public class PlayerGun : MonoBehaviour
 
     [Header("SMG Info")]
     public float maxDiviation; [Tooltip("Diviation on both sides")]
-    public float diviationMulti;
+    public float diviationMulti; [Tooltip("Diviation per second")]
     public float smgBulletSpeed;
-    public float smgFireRate;
+    public float smgFireRate; [Tooltip("Fires 1 shot every x Second(s)")]
     private float diviation;
-    public int smgInventoryAmmo = 100;
-    public int smgClipMax = 20;
+    public int smgInventoryAmmo = 100; [ Tooltip ("Total ammo the player has avalible to them")]
+    public int smgClipMax = 20; [Tooltip("Most amount of ammo in the gun at a time")]
     public int smgAmmoCurrent;
+    public float smgReloadTime = 1.5f; [Tooltip("How many x Seconds reloading takes")]
 
     [Header("Shotgun Info")]
-    public float shotgunFireRate;
+    public float shotgunFireRate;[Tooltip("Fires 1 shot every x Second(s)")]
 
 
     [Header("References")]
     public Transform firePoint; [Tooltip("Location for bullets to begin")]
-    public LayerMask walls;
-    public LayerMask sparksMask;
+    public LayerMask walls; [Tooltip("Interacts only with the first of these layers that are hit with the laser")]
+    public LayerMask sparksMask; [Tooltip("Layers that get sparks and interact with laser")]
 
     private void Start()
     {
@@ -71,10 +72,13 @@ public class PlayerGun : MonoBehaviour
 
     public void Firegun()
     {
+        //ignores additional fires when otherwise busy
         if (firing || reloading || GetComponent<PlayerMovement>().dodging)
             return;
 
         firing = true;
+
+        //Choosing method based on gun active
         switch (currentGun)
         {
             default:
@@ -88,7 +92,6 @@ public class PlayerGun : MonoBehaviour
             case (WhichGun.smg):
                 if (smgAmmoCurrent == 0)
                 {
-
                     reloading = true;
                     firing = false;
                     ReloadSMG();
