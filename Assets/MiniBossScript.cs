@@ -5,9 +5,12 @@ using UnityEngine;
 public class MiniBossScript : MonoBehaviour
 {
     [SerializeField] private Animator anim;
+    [SerializeField] private Vulnerability V;
     [SerializeField] private int hp;
+    [SerializeField] private float desync;
     [SerializeField] private float openTime;
     [SerializeField] private float closeTime;
+    [SerializeField] private float pastTime;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,7 +18,7 @@ public class MiniBossScript : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         
     }
@@ -24,7 +27,7 @@ public class MiniBossScript : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        if (LayerMask.NameToLayer("Player Bullets") == other.gameObject.layer)
+        if (V.vuln && (LayerMask.NameToLayer("BulletKiller") == other.gameObject.layer || LayerMask.NameToLayer("Player Bullets") == other.gameObject.layer))
         {
             hp--;
             if (hp <= 0)

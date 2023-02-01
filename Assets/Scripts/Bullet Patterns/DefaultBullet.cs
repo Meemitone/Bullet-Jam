@@ -30,7 +30,7 @@ public class DefaultBullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision c)
     {
-        if (LayerMask.NameToLayer("Walls") == c.gameObject.layer)
+        if (LayerMask.NameToLayer("Walls") == c.gameObject.layer || LayerMask.NameToLayer("BulletKiller") == c.gameObject.layer)
         {
             Destroy(gameObject);
         }

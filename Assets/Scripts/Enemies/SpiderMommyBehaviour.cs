@@ -365,7 +365,7 @@ public class SpiderMommyBehaviour : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        if (LayerMask.NameToLayer("Player Bullets") == other.gameObject.layer && state != States.Empty && state != States.Die)
+        if ((LayerMask.NameToLayer("BulletKiller") == other.gameObject.layer ||  LayerMask.NameToLayer("Player Bullets") == other.gameObject.layer) && state != States.Empty && state != States.Die)
         {
             hp--;
             if (hp <= 0)
@@ -382,7 +382,13 @@ public class SpiderMommyBehaviour : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         Instantiate(mySon, transform.position, Quaternion.identity, transform.parent);
         Instantiate(mySon, transform.position, Quaternion.identity, transform.parent);
-
+        float randmoval = Random.value;
+        if (randmoval <= 0.1)
+            gun.Fire(8, true);
+        else if (randmoval <= 0.3)
+            gun.Fire(9, true);
+        else if (randmoval <= 0.4)
+            gun.Fire(10, true);
         transform.parent.DetachChildren();
         Destroy(gameObject, Random.Range(0.5f, 1)); //remove this, the prefab model, but leave the bullets
     }

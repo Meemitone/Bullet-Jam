@@ -126,10 +126,13 @@ public class BabuBehaviour : MonoBehaviour
                 //GetComponentInChildren<Animator>().enabled = false;//deactivate the animator
                 anim.SetTrigger("Death");
 
+                if (Random.value <= 0.1)
+                    gun.Fire(9, true);
+
                 transform.parent.DetachChildren();
                 nav.SetDestination(transform.position);
                 state = States.Empty; //do no more after the next line
-                Destroy(gameObject, Random.Range(3, 5)); //remove this, the prefab model, but leave the bullets
+                Destroy(gameObject, Random.Range(0.5f, 1)); //remove this, the prefab model, but leave the bullets
                 break;
             case States.Empty:
                 break;
@@ -209,7 +212,7 @@ public class BabuBehaviour : MonoBehaviour
     }
     private void OnCollisionEnter(Collision other)
     {
-        if (LayerMask.NameToLayer("Player Bullets") == other.gameObject.layer && state != States.Empty && state != States.Die)
+        if ((LayerMask.NameToLayer("BulletKiller") == other.gameObject.layer || LayerMask.NameToLayer("Player Bullets") == other.gameObject.layer) && state != States.Empty && state != States.Die)
         {
             hp--;
             if (hp <= 0)
