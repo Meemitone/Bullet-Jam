@@ -26,6 +26,8 @@ public class PlayerMovement : MonoBehaviour
     private CharacterController playerControl;
     public BulletJam inputSystem; [Tooltip("Don't touch")]
 
+    bool mouseActive;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -34,6 +36,8 @@ public class PlayerMovement : MonoBehaviour
 
         healthCurrent = healthMax;
 
+        UIScript.Instance.player = this;
+        UIScript.Instance.gun = GetComponent<PlayerGun>();
     }
 
     private void OnEnable()
@@ -145,7 +149,7 @@ public class PlayerMovement : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
 
-        if(other.gameObject.tag == "EnemyBullet" && !dodging && !invincible) //placeholder bullet name
+        if(other.gameObject.layer == LayerMask.NameToLayer("Enemy Bullets") && !dodging && !invincible) //placeholder bullet name
         {
             healthCurrent -= other.GetComponent<DefaultBullet>().damage;
             Destroy(other.gameObject);
@@ -182,6 +186,7 @@ public class PlayerMovement : MonoBehaviour
         if(healthChange > 0 && healthCurrent != healthMax)
         {
             healthCurrent += healthChange;
+            
         }
         else if (healthChange < 0)
         {
@@ -201,11 +206,12 @@ public class PlayerMovement : MonoBehaviour
         GetComponent<MeshRenderer>().material.color = Color.white; //marking end of iFrames change this to model mesh later 
     }
 
-    public void Die()
+    private void Die()
     {
 
 
 
     }
+
 
 }

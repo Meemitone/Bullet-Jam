@@ -59,6 +59,9 @@ MonoBehaviour:
   distance: 5
   dodging: 0
   dashTime: 6
+  healthMax: 8
+  healthCurrent: 0
+  iFrames: 0.7
 --- !u!114 &5607722683059589276
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79,10 +82,15 @@ MonoBehaviour:
   laserHit: {fileID: 8802788960804959157, guid: c629257352e724810b9068a944719713, type: 3}
   laserSpeed: 5
   laserUpTime: 2.5
+  laserInventoryAmmo: 10
   maxDiviation: 15
   diviationMulti: 15
   smgBulletSpeed: 20
   smgFireRate: 0.2
+  smgInventoryAmmo: 100
+  smgClipMax: 20
+  smgAmmoCurrent: 0
+  smgReloadTime: 1.5
   shotgunFireRate: 1
   firePoint: {fileID: 5607722683460323736}
   walls:
@@ -114,7 +122,19 @@ MonoBehaviour:
       m_Calls: []
   m_ControlsChangedEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5607722683059589273}
+        m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
+        m_MethodName: SwapControls
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls: []
@@ -300,7 +320,7 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
-  m_Height: 10
+  m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &5607722683059589279

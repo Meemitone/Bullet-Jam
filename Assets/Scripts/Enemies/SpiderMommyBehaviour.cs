@@ -252,30 +252,29 @@ public class SpiderMommyBehaviour : MonoBehaviour
         float[] dists = new float[4];
 
         float offset = Random.Range(0, maxRange - minRange);
-        offset += minRange;
+        offset += minStrafeRange;
         Vector3 randomPoint = Random.insideUnitCircle;
         randomPoint.z = randomPoint.y;
         randomPoint.y = 0;
         randomPoint.Normalize();
         randomPoint *= offset;
 
-        targets[0] = randomPoint;
-        targets[1] = -randomPoint;
-        targets[2] = new Vector3(randomPoint.z, 0, -randomPoint.x);
-        targets[3] = -targets[2];
+        targets[0] = randomPoint + player.transform.position;
+        targets[1] = -randomPoint + player.transform.position;
+        targets[2] = new Vector3(randomPoint.z, 0, -randomPoint.x) + player.transform.position;
+        targets[3] = -targets[2] + player.transform.position;
 
         for (int i = 0; i < 4; i++)
         {
             dists[i] = Vector3.Distance(transform.position, targets[i]);
         }
-
         float mindist = Mathf.Min(dists);
         for (int i = 0; i < 4; i++)
         {
             if (dists[i] == mindist)
             {
                 NavMeshPath path = new NavMeshPath();
-                nav.SetDestination(player.transform.position + targets[i]);
+                nav.SetDestination(targets[i]);
                 nav.CalculatePath(targets[i], path);
                 if (path.status == NavMeshPathStatus.PathComplete)
                 {
@@ -363,7 +362,7 @@ public class SpiderMommyBehaviour : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        if (LayerMask.NameToLayer("Player Bullets") != other.gameObject.layer && state != States.Empty && state != States.Die)
+        if (LayerMask.NameToLayer("Player Bullets") == other.gameObject.layer && state != States.Empty && state != States.Die)
         {
             hp--;
             if (hp <= 0)

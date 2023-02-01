@@ -143,7 +143,7 @@ public class Groot_Behaviour : MonoBehaviour
                 //Debug.DrawLine(nav.destination, transform.position, Color.blue, 7f);
 
                 aggression += aggroRate;//increase aggression
-
+                
                 if (Vector3.Distance(player.transform.position, nav.destination) > maxStrafeRange || Vector3.Distance(player.transform.position, nav.destination) < minStrafeRange)
                 {
                     StrafeTarget(0);
@@ -155,7 +155,7 @@ public class Groot_Behaviour : MonoBehaviour
                     state = getNewState();
                 }
 
-
+                //Debug.Log(Vector3.Distance(nav.destination, transform.position));
                 if (Vector3.Distance(nav.destination, transform.position) < 0.5)//if close enough to where was going
                 {
                     getNewState();//reroll priorities
@@ -235,23 +235,23 @@ public class Groot_Behaviour : MonoBehaviour
         randomPoint.Normalize();
         randomPoint *= offset;
 
-        targets[0] = randomPoint;
-        targets[1] = -randomPoint;
-        targets[2] = new Vector3(randomPoint.z, 0, -randomPoint.x);
-        targets[3] = -targets[2];
+        targets[0] = randomPoint+player.transform.position;
+        targets[1] = -randomPoint + player.transform.position;
+        targets[2] = new Vector3(randomPoint.z, 0, -randomPoint.x) + player.transform.position;
+        targets[3] = -targets[2] + player.transform.position;
 
         for (int i = 0; i < 4; i++)
         {
             dists[i] = Vector3.Distance(transform.position, targets[i]);
         }
-
         float mindist = Mathf.Min(dists);
         for (int i = 0; i < 4; i++)
         {
             if (dists[i] == mindist)
             {
+
                 NavMeshPath path = new NavMeshPath();
-                nav.SetDestination(player.transform.position + targets[i]);
+                nav.SetDestination(targets[i]);
                 nav.CalculatePath(targets[i], path);
                 if (path.status == NavMeshPathStatus.PathComplete)
                 {
@@ -341,7 +341,7 @@ public class Groot_Behaviour : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        if (LayerMask.NameToLayer("Player Bullets") != other.gameObject.layer && state != States.Empty && state != States.Die)
+        if (LayerMask.NameToLayer("Player Bullets") == other.gameObject.layer && state != States.Empty && state != States.Die)
         {
             hp--;
             if (hp <= 0)
