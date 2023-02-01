@@ -21,11 +21,12 @@ public class PlayerMovement : MonoBehaviour
     public int healthCurrent;
     private bool invincible = false;
     public float iFrames = 0.7f; [Tooltip("Invincibility over time")]
-
+    [Header ("")]
     [Header("References")]
     private CharacterController playerControl;
     public BulletJam inputSystem; [Tooltip("Don't touch")]
     public Camera playerCam;
+    public Animator playerAnim;
 
     bool mouseActive;
 

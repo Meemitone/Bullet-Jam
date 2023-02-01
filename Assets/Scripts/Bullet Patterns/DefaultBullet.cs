@@ -27,6 +27,14 @@ public class DefaultBullet : MonoBehaviour
         }
     }
 
+
+    private void OnCollisionEnter(Collision c)
+    {
+        if (LayerMask.NameToLayer("Walls") == c.gameObject.layer)
+        {
+            Destroy(gameObject);
+        }
+    }
     /*
      * Create a function that despawns the bullet when offscreen, see STAGING for details
      * */
