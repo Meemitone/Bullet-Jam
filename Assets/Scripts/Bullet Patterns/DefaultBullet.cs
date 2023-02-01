@@ -35,6 +35,15 @@ public class DefaultBullet : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+
+        if (other.gameObject.layer == LayerMask.NameToLayer("BulletKiller"))
+            Destroy(gameObject);
+
+    }
+
     /*
      * Create a function that despawns the bullet when offscreen, see STAGING for details
      * */
