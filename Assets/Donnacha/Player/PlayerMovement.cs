@@ -9,13 +9,13 @@ public class PlayerMovement : MonoBehaviour
     public float speed;
     public float lasTurnSpeed = 2;
     private Vector3 motion;
-
+    [Header("")]
     [Header("Dash")]
     public float distance = 2;
     public bool dodging = false; [Tooltip("Don't touch")]
     public float dashTime;
     private Vector3 dashLocation;
-
+    [Header("")]
     [Header("Health")]
     public int healthMax = 8;
     public int healthCurrent;
@@ -61,7 +61,13 @@ public class PlayerMovement : MonoBehaviour
         //reads the axises on the left joystick
         Vector2 move = inputSystem.Player.Move.ReadValue<Vector2>();
 
+        playerAnim.SetBool("Moving", move != new Vector2());
+        playerAnim.SetBool("Strafe", Vector3.Angle(transform.forward, new Vector3(move.x, 0, move.y)) > 45 && Vector3.Angle(transform.forward, new Vector3(move.x, 0, move.y)) < 135 ||
+            Vector3.Angle(transform.forward, new Vector3(move.x, 0, move.y)) < -45 && Vector3.Angle(transform.forward, new Vector3(move.x, 0, move.y)) > -135);
+        playerAnim.SetBool("Negative", Vector3.Angle(transform.forward, new Vector3(move.x, 0, move.y)) < -45 || Vector3.Angle(transform.forward, new Vector3(move.x, 0, move.y)) > 135);
         OnMove(move);
+
+        
 
         Vector2 look = inputSystem.Player.Look.ReadValue<Vector2>();
 
@@ -82,6 +88,8 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnMove(Vector2 moveInput)
     {
+
+
         //stops normal movement to allow for dodging
         if (dodging)
         {
@@ -134,7 +142,7 @@ public class PlayerMovement : MonoBehaviour
             }
 
             //checks that the player will not go out of bounds
-            if (Physics.Raycast(transform.position + new Vector3(0, 1, 0), transform.forward, out hit, distance))
+            if (Physics.Raycast(transform.position + new Vector3(0, 1, 0), transform.forward, out hit, distance, 0, QueryTriggerInteraction.Ignore))
             {
                 Debug.Log(hit.transform.name);
                 dashDistance = hit.distance - 0.7f; //lowers dash to just before the wall keeping in mind the player's radius
@@ -224,9 +232,11 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    public void PauseGame()
+    public void PauseGame(InputAction.CallbackContext action)
     {
-        UIScript.Instance.PauseGame();
+        if(action.phase.ToString() == "Started")
+            UIScript.Instance.PauseGame();
     }
+
 
 }

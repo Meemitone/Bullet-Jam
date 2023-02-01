@@ -11,10 +11,11 @@ public class PlayerGun : MonoBehaviour
     [Header("Guns and Bullets")]
     public WhichGun currentGun; [Tooltip("Don't touch use bumpers/ E & Q")]
     public List<GameObject> bulletPrefabs = new List<GameObject>(); [Tooltip("Index 0 = Shotgun | Index 1 = SMG")]
+    public List<GameObject> guns = new List<GameObject>(); [Tooltip("Index 0 = Shotgun | Index 1 = SMG | Index 2 = Laser")]
     private GameObject bulletHolder;
 
     public int gunIndex = 0;
-    public int gunCount = 1;
+    public int gunCount = 3;
 
     private bool firing;
     private bool reloading;
@@ -45,7 +46,7 @@ public class PlayerGun : MonoBehaviour
     [Header("")]
     [Header("Shotgun Info")]
     public float shotgunFireRate;[Tooltip("Fires 1 shot every x Second(s)")]
-    public bool chainsawing;
+    public bool chainsawing = false;
 
     [Header("")]
     [Header("References")]
@@ -75,7 +76,7 @@ public class PlayerGun : MonoBehaviour
     public void Firegun()
     {
         //ignores additional fires when otherwise busy
-        if (firing || reloading || GetComponent<PlayerMovement>().dodging)
+        if (firing || reloading || GetComponent<PlayerMovement>().dodging || chainsawing)
             return;
 
         firing = true;
@@ -225,8 +226,7 @@ public class PlayerGun : MonoBehaviour
 
                     if(touch.transform.gameObject.layer == LayerMask.NameToLayer("Enemy Bullet"))
                     {
-                        //damage enemy
-
+                        touch.transform.GetComponent<LaserMail>().LaserDamage(totalDamageOverUptime / laserUpTime);
                     }
 
                     i++;
@@ -258,9 +258,11 @@ public class PlayerGun : MonoBehaviour
 
     public void OnSwapWeaponRight(InputAction.CallbackContext action)
     {
-        if(action.phase.ToString() == "Started" || action.phase.ToString() == "Started" && currentGun == WhichGun.laser  && !firing)
+        if(action.phase.ToString() == "Started" || action.phase.ToString() == "Started" && currentGun == WhichGun.laser && !firing && gunCount > 1)
         {
-            if (gunIndex < 3 - 1)
+            guns[gunIndex].SetActive(false);
+
+            if (gunIndex < gunCount - 1)
                 gunIndex++;
             else
                 gunIndex = 0;
@@ -277,17 +279,21 @@ public class PlayerGun : MonoBehaviour
                     currentGun = WhichGun.laser;
                     break;
             }
+
+            guns[gunIndex].SetActive(true);
         }
     }
 
     public void OnSwapWeaponLeft(InputAction.CallbackContext action)
     {
-        if (action.phase.ToString() == "Started" || action.phase.ToString() == "Started" && currentGun == WhichGun.laser && !firing)
+        if (action.phase.ToString() == "Started" || action.phase.ToString() == "Started" && currentGun == WhichGun.laser && !firing && gunCount > 1)
         {
+            guns[gunIndex].SetActive(false);
+
             if (gunIndex > 0)
                 gunIndex--;
             else
-                gunIndex = 2;
+                gunIndex = gunCount - 1;
 
             switch (gunIndex)
             {
@@ -301,6 +307,7 @@ public class PlayerGun : MonoBehaviour
                     currentGun = WhichGun.laser;
                     break;
             }
+            guns[gunIndex].SetActive(true);
         }
     }
 
@@ -309,10 +316,11 @@ public class PlayerGun : MonoBehaviour
         gunCount++;
     }
 
-    public void RIPANDTEAR()
+    public void RIPANDTEAR(InputAction.CallbackContext action)
     {
 
-        if(currentGun == WhichGun.shotgun && !chainsawing && UIScript.Instance.chainsawCharge == 1) // add term for cooldown on the ui
+
+        if(currentGun == WhichGun.shotgun && !chainsawing && UIScript.Instance.chainsawCharge >= 1f  && action.phase.ToString() == "Started" && !GetComponent<PlayerMovement>().dodging) 
         {
 
             UIScript.Instance.chainsawCharge = 0;
