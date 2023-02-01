@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Animations;
 
 public class ChungusBehaviour : MonoBehaviour
 {
     private enum States
     {
-        Spawn, //spawn in
-        FindCover, // use to punch
+        Spawn, //spawn in //done
+        FindCover, // use to punch done
         Shoot, // use to shoot
         Firing, //
         Strafe, // //use to move
@@ -24,7 +25,7 @@ public class ChungusBehaviour : MonoBehaviour
     [SerializeField] private int hp = 2;
     [SerializeField] private Animator anim;
     [SerializeField] private LaserMail mail;
-    [SerializeField] private Vector3 fist;
+    [SerializeField] private GameObject fist;
     [SerializeField] private GameObject FistBullet;
     private Quaternion playerLook;
     private float initacc;
@@ -66,11 +67,23 @@ public class ChungusBehaviour : MonoBehaviour
         switch (state)//ment
         {
             case States.Spawn:
+                bool nope = false;
                 if (anim.GetCurrentAnimatorClipInfo(0)[0].clip.name != "GolemSpawn")
+                    foreach(AnimatorClipInfo clip in anim.GetCurrentAnimatorClipInfo(0))
+                    {
+                        if(clip.clip.name == "GolemAttack1" || clip.clip.name == "GolemAttack2")
+                        {
+                            nope = true;
+                        }
+                    }
+
+                if(!nope)
                     state = getNewState();
                 break;
             case States.FindCover:
                 anim.SetTrigger("Attack2");
+                Instantiate(FistBullet, fist.transform);
+                state = States.Spawn;
                 break;
 
             case States.Shoot:
@@ -84,6 +97,7 @@ public class ChungusBehaviour : MonoBehaviour
                     if (callOfDutyShootAMan())
                     {
                         state = States.Firing;
+                        anim.SetTrigger("Attack1");
                         //animation bool on goes here
                     }
                     else
@@ -205,7 +219,7 @@ public class ChungusBehaviour : MonoBehaviour
 
     private States getNewState()
     {
-        if(state == States.Strafe)
+        if(state == States.Strafe && Vector3.Distance(transform.position, player.transform.position) < 2f)
         {
             //punch
             return States.FindCover;
