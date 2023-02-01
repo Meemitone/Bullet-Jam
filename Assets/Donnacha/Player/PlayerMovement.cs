@@ -35,9 +35,6 @@ public class PlayerMovement : MonoBehaviour
         inputSystem = new BulletJam();
 
         healthCurrent = healthMax;
-
-        UIScript.Instance.player = this;
-        UIScript.Instance.gun = GetComponent<PlayerGun>();
     }
 
     private void OnEnable()
