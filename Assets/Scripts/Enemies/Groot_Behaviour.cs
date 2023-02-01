@@ -9,6 +9,7 @@ public class Groot_Behaviour : MonoBehaviour
 {
     private enum States
     {
+        Spawn,
         FindCover, //DONE (I think?) (gotta do the meaty get position for new cover code)
         Shoot, //DONE
         Firing, //DONE
@@ -17,42 +18,60 @@ public class Groot_Behaviour : MonoBehaviour
         Empty //Do nothing as death resolves DONE
     }
 
-    [SerializeField] private States state;
+    [SerializeField] private States state = States.Spawn;
     [SerializeField] private NavMeshAgent nav;
     [SerializeField] private GameObject player;
     [SerializeField] private Gun_Controller gun;
     [SerializeField] private float aggression = 0f; //%chance that groot tries to shoot you
-    [SerializeField] private float aggroRate = 0.01f;
-    [SerializeField] private float cowardMultiplier = 2.5f;
+    [SerializeField] private float aggroRate = 0.001f;
+    [SerializeField] private float cowardMultiplier = 1f;
     [SerializeField] private float strafeChanceMaximum = 1 / 3;
     [SerializeField] private float minStrafeRange, maxStrafeRange;
     [SerializeField] private int hp = 7;
+    [SerializeField] private Animator anim;
+    [SerializeField] private LaserMail mail;
+    private Quaternion playerLook;
+    public float playerDist;
     private float initacc;
     // Start is called before the first frame update
     void Start()
     {
+        mail = GetComponent<LaserMail>();
         nav = GetComponent<NavMeshAgent>();
-        initacc = nav.acceleration;
+        initacc = nav.speed;
         gun = GetComponentInChildren<Gun_Controller>();
-        GameObject[] Group = FindObjectsOfType<GameObject>();
-        player = null;
-        foreach (GameObject g in Group)
-        {
-            if (g.CompareTag("Player"))
-                player = g;
-        }
+        player = FindObjectOfType<PlayerMovement>().gameObject;
         if (player == null)
         {
             Debug.Log("Enemy can't find player");
             Destroy(transform.parent.gameObject);
+        }
+        NavMeshHit navPlacer;
+        if (NavMesh.SamplePosition(transform.position, out navPlacer, 500, 1))
+        {
+            gameObject.transform.position = navPlacer.position;
+            nav.enabled = true;
         }
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        hp -= mail.damageSince;
+        mail.damageSince = 0;
+        if(hp<=0 && state != States.Empty)
+        {
+            state = States.Die;
+        }
+        playerLook = Quaternion.LookRotation(player.transform.position - transform.position, Vector3.up);
+        playerDist = Vector3.Distance(player.transform.position, transform.position);
         switch (state)//ment
         {
+            case States.Spawn:
+                if (anim.GetCurrentAnimatorClipInfo(0)[0].clip.name != "GrootSpawn")
+                    state = getNewState();
+
+                break;
             case States.FindCover:
                 if (Vector3.Distance(nav.destination, transform.position) < 0.03)
                 {
@@ -81,6 +100,7 @@ public class Groot_Behaviour : MonoBehaviour
 
             case States.Shoot:
                 //check line of sight
+                transform.rotation = Quaternion.Slerp(transform.rotation, playerLook, 0.3f);
                 RaycastHit shootChecker = new RaycastHit();
                 Physics.Raycast(transform.position, player.transform.position - transform.position, out shootChecker, (player.transform.position - transform.position).magnitude);
                 if (shootChecker.collider.gameObject == player) //did we hit the player when targeted?
@@ -105,32 +125,37 @@ public class Groot_Behaviour : MonoBehaviour
                 break;
 
             case States.Firing:
+                transform.rotation = Quaternion.Slerp(transform.rotation, playerLook, 0.3f);
                 nav.speed = 0;
-                nav.acceleration = 0;
+                nav.SetDestination(player.transform.position);
                 if (gun.State < 2)
                 {
                     //animation bool turn off here
-                    nav.acceleration = initacc;
+                    nav.speed = initacc;
+                    nav.SetDestination(transform.position);
                     state = getNewState();
                 }
                 break;
 
             case States.Strafe:
+                transform.rotation = Quaternion.Slerp(transform.rotation, playerLook, 0.3f);
+                //Debug.DrawLine(nav.destination, transform.position, Color.blue, 7f);
+
                 aggression += aggroRate;//increase aggression
+
+                if (Vector3.Distance(player.transform.position, nav.destination) > maxStrafeRange || Vector3.Distance(player.transform.position, nav.destination) < minStrafeRange)
+                {
+                    StrafeTarget(0);
+                }
 
                 Physics.Raycast(transform.position, player.transform.position - transform.position, out shootChecker, (player.transform.position - transform.position).magnitude);
                 if (shootChecker.collider.gameObject == player && aggression > 0.7) //Can we shoot the player?
                 {
                     state = getNewState();
                 }
-                else
-                {
-                    if (Vector3.Distance(nav.destination, transform.position) < 0.03)
-                        state = getNewState();
-                }
 
 
-                if (Vector3.Distance(nav.destination, transform.position) < 0.03)//if close enough to where was going
+                if (Vector3.Distance(nav.destination, transform.position) < 0.5)//if close enough to where was going
                 {
                     getNewState();//reroll priorities
                 }
@@ -138,9 +163,10 @@ public class Groot_Behaviour : MonoBehaviour
 
             case States.Die:
                 GetComponentInChildren<Animator>().enabled = false;//deactivate the animator
-                Collider[] finder = GetComponentsInChildren<Collider>();
-                foreach (Collider c in finder)
-                    c.gameObject.SetActive(true); //find each collider in this things children, ie groot upp and groot lower, and set them active
+                foreach (Transform c in anim.gameObject.transform)
+                    c.gameObject.SetActive(!c.gameObject.activeSelf); //find each collider in this things children, ie groot upp and groot lower, and set them active
+                transform.parent.DetachChildren();
+                nav.SetDestination(transform.position);
                 state = States.Empty; //do no more after the next line
                 Destroy(gameObject, Random.Range(3, 5)); //remove this, the prefab model, but leave the bullets
                 break;
@@ -179,7 +205,7 @@ public class Groot_Behaviour : MonoBehaviour
         }
         else if (randres <= attack + gap)
         {
-            nav.SetDestination(transform.position);
+            StrafeTarget(0);
             return States.Strafe;
         }
         else
@@ -201,8 +227,11 @@ public class Groot_Behaviour : MonoBehaviour
         float[] dists = new float[4];
 
         float offset = Random.Range(0, maxStrafeRange - minStrafeRange);
-        Vector3 randomPoint = Random.insideUnitSphere;
+        offset += minStrafeRange;
+        Vector3 randomPoint = Random.insideUnitCircle;
+        randomPoint.z = randomPoint.y;
         randomPoint.y = 0;
+        randomPoint.Normalize();
         randomPoint *= offset;
 
         targets[0] = randomPoint;
@@ -241,7 +270,7 @@ public class Groot_Behaviour : MonoBehaviour
             //we are not currently in cover
             Vector3[] testpos = new Vector3[20];
             Vector3 playerToMe = transform.position - player.transform.position;
-            playerToMe.y = 0;
+            playerToMe.y = 0f;
             playerToMe.Normalize();
             Vector3 testDir = playerToMe;
             testDir.x = -playerToMe.z;
@@ -258,15 +287,34 @@ public class Groot_Behaviour : MonoBehaviour
             //for each testpos, check the raycast for cover
             for (int i = 0; i < 20; i++)
             {
-                Physics.Raycast(transform.position, player.transform.position - transform.position, out shootChecker, (player.transform.position - transform.position).magnitude);
-                if(shootChecker.collider.gameObject!=player)
+                bool failure = false;
+                RaycastHit wallCheck = new RaycastHit();
+                Physics.Raycast(testpos[i], transform.position - testpos[i], out wallCheck);
+                Physics.Raycast(testpos[i], player.transform.position - testpos[i], out shootChecker, (player.transform.position - testpos[i]).magnitude);
+                if (shootChecker.collider.gameObject != player && wallCheck.collider != null && LayerMask.NameToLayer("Walls") != wallCheck.collider.gameObject.layer)
                 {
                     //cover found
                     Vector3 coverTarg = shootChecker.point;
                     playerToMe = coverTarg - player.transform.position;
                     playerToMe.Normalize();
                     coverTarg += playerToMe;
-                    nav.SetDestination(coverTarg);
+                    Physics.Raycast(coverTarg, transform.position - coverTarg, out wallCheck);
+                    if (wallCheck.collider != null && LayerMask.NameToLayer("Walls") != wallCheck.collider.gameObject.layer)
+                    {
+                        Collider[] FinalChecker = Physics.OverlapSphere(coverTarg, 0.1f);
+                        foreach (Collider c in FinalChecker)
+                        {
+                            if (LayerMask.NameToLayer("Walls") == c.gameObject.layer)
+                            {
+                                failure = true;
+                            }
+                        }
+                        if (!failure)
+                        {
+                            nav.SetDestination(coverTarg);
+                            return;
+                        }
+                    }
                 }
             }
             aggression += 0.1f;
@@ -274,15 +322,31 @@ public class Groot_Behaviour : MonoBehaviour
         }
     }
 
+    private float Power(int e, int x)
+    {
+        if (x == 0)
+            return 1;
+        int power = Mathf.Abs(x);
+        float result = 1;
+        for (int i = 0; i < power; i++)
+        {
+            result *= e;
+        }
+        if (x < 0)
+            result = 1 / result;
+        return result;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Player Bullet") && state!= States.Empty && state!= States.Die)
+        if (LayerMask.NameToLayer("Player Bullets") != other.gameObject.layer && state != States.Empty && state != States.Die)
         {
             hp--;
-            if(hp <=0)
+            if (hp <= 0)
             {
                 state = States.Die;
             }
+            Destroy(other.gameObject);
         }
     }
 }
