@@ -170,6 +170,8 @@ public class PlayerGun : MonoBehaviour
 
     private void Update()
     {
+        if (UIScript.Instance.paused)
+            return;
 
         if (GetComponent<PlayerMovement>().inputSystem.Player.Fire.IsPressed())
         {
@@ -203,7 +205,7 @@ public class PlayerGun : MonoBehaviour
                 laserLine.SetPosition(0, firePoint.position);
                 laserLine.SetPosition(1, laserPos.position);
 
-                RaycastHit[] hits = Physics.SphereCastAll(firePoint.position, laserLine.startWidth / 2, firePoint.forward, laserDistance+0.3f, layerMask: sparksMask);
+                RaycastHit[] hits = Physics.SphereCastAll(firePoint.position, laserLine.startWidth / 2, firePoint.forward, laserDistance+ laserLine.startWidth / 2, layerMask: sparksMask);
                 RaycastHit[] hits1 = Physics.SphereCastAll(laserPos.position + -firePoint.forward * laserLine.startWidth, laserLine.startWidth / 2, -firePoint.forward, laserDistance, layerMask: sparksMask);
 
                 if (hits.Length == 0)

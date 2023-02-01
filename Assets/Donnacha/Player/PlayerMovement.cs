@@ -149,7 +149,7 @@ public class PlayerMovement : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
 
-        if(other.gameObject.layer == LayerMask.NameToLayer("Enemy Bullet") && !dodging && !invincible) //placeholder bullet name
+        if(other.gameObject.layer == LayerMask.NameToLayer("Enemy Bullets") && !dodging && !invincible) //placeholder bullet name
         {
             healthCurrent -= other.GetComponent<DefaultBullet>().damage;
             Destroy(other.gameObject);
