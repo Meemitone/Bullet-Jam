@@ -292,6 +292,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spider Baby
       objectReference: {fileID: 0}
+    - target: {fileID: 6060896460310044237, guid: 9149faf8ffbb35e42aaf0e62c21080e0, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 905d17172cc021a4cb8166fec5dc010f, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9149faf8ffbb35e42aaf0e62c21080e0, type: 3}
 --- !u!4 &4797593028168443323 stripped
