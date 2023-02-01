@@ -17,7 +17,7 @@ public class Gun_Controller : MonoBehaviour
     [Tooltip("List of all the bullet patterns")]
     [SerializeField] private GameObject[] BulletPatterns;
     [Tooltip("The index of this enemys bullet pattern")]
-    [SerializeField] private int BulletIndex;
+    [SerializeField] public int BulletIndex;
 
     private float Cooling = 0;
 
@@ -88,5 +88,10 @@ public class Gun_Controller : MonoBehaviour
     public void CompleteFire()
     {
         State = 1;
+    }
+
+    internal void FireOnDelay(float v)
+    {
+        Invoke("Fire", v);
     }
 }

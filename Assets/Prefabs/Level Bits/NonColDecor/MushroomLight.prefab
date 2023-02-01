@@ -377,7 +377,7 @@ Light:
   m_Shape: 0
   m_Color: {r: 1, g: 0.91612554, b: 0, a: 1}
   m_Intensity: 2
-  m_Range: 10
+  m_Range: 13
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -471,7 +471,7 @@ Light:
   m_Shape: 0
   m_Color: {r: 1, g: 0.34999514, b: 0, a: 1}
   m_Intensity: 2
-  m_Range: 10
+  m_Range: 13
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -1807,7 +1807,7 @@ Light:
   m_Shape: 0
   m_Color: {r: 0, g: 0.9892001, b: 1, a: 1}
   m_Intensity: 2
-  m_Range: 10
+  m_Range: 13
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -2285,7 +2285,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &8266104224956505136
 Transform:

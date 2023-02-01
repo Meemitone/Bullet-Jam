@@ -27,6 +27,14 @@ public class DefaultBullet : MonoBehaviour
         }
     }
 
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (true)
+        {
+            int i = 1;
+        }
+    }
     /*
      * Create a function that despawns the bullet when offscreen, see STAGING for details
      * */

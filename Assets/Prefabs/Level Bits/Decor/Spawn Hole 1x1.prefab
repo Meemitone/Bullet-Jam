@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 2664061716880488460}
   m_Layer: 0
   m_Name: Spawn Hole 1x1
-  m_TagString: Untagged
+  m_TagString: Spawner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

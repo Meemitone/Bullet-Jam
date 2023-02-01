@@ -82,7 +82,7 @@ public class BabuBehaviour : MonoBehaviour
                     if (callOfDutyShootAMan())
                     {
                         state = States.Firing;
-                        //animation bool on goes here
+                        anim.SetBool("Attack", true);
                     }
                     else
                     {
@@ -102,7 +102,7 @@ public class BabuBehaviour : MonoBehaviour
                 nav.SetDestination(player.transform.position);
                 if (gun.State < 2)
                 {
-                    //animation bool turn off here
+                    StartCoroutine(Animdelay());
                     nav.speed = initacc;
                     nav.SetDestination(transform.position);
                     state = getNewState();
@@ -145,6 +145,12 @@ public class BabuBehaviour : MonoBehaviour
                 break;
         }
 
+    }
+
+    IEnumerator Animdelay()
+    {
+        yield return new WaitForSeconds(0.4f);
+        anim.SetBool("Attack", false);
     }
 
     private void StrafeTarget(int attempt)

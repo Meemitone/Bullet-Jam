@@ -146,7 +146,7 @@ public class SpiderMommyBehaviour : MonoBehaviour
 
             case States.Die:
                 StartCoroutine(Death());
-                //add go to death anim
+                anim.SetTrigger("Death");
                 state = States.Empty;
                 break;
 
@@ -164,23 +164,25 @@ public class SpiderMommyBehaviour : MonoBehaviour
             {
                 if (rand <= .7f)
                 {
-                    gun.Fire(3, true);
-                    return true;
+                    gun.BulletIndex = 3;
                 }
-                if (rand <= .9f)
+                else if (rand <= .9f)
                 {
-                    gun.Fire(4, true);
-                    return true;
+                    gun.BulletIndex = 4;
                 }
-                gun.Fire(5, true);
-                return true;
+                else
+                gun.BulletIndex = 5;
             }
-            if (rand <= .4f)
+            else if (rand <= .4f)
             {
-                gun.Fire(4, true);
-                return true;
+                gun.BulletIndex = 4;
             }
-            gun.Fire(5, true);
+            else
+            gun.BulletIndex = 5;
+
+
+            gun.FireOnDelay(0.5f);
+            gun.State = 3;
             return true;
         }
         return false;
