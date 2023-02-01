@@ -243,8 +243,6 @@ public class Groot_Behaviour : MonoBehaviour
         for (int i = 0; i < 4; i++)
         {
             dists[i] = Vector3.Distance(transform.position, targets[i]);
-            Debug.Log(i);
-            Debug.Log(dists[i]);
         }
         float mindist = Mathf.Min(dists);
         for (int i = 0; i < 4; i++)
@@ -252,7 +250,6 @@ public class Groot_Behaviour : MonoBehaviour
             if (dists[i] == mindist)
             {
 
-                Debug.Log(i);
                 NavMeshPath path = new NavMeshPath();
                 nav.SetDestination(targets[i]);
                 nav.CalculatePath(targets[i], path);
