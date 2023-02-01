@@ -18,7 +18,7 @@ public class PlayerGun : MonoBehaviour
 
     private bool firing;
     private bool reloading;
-
+    [Header("")]
     [Header("Laser Info")]
     public bool laserActive;
     public GameObject laserHit;
@@ -30,7 +30,7 @@ public class PlayerGun : MonoBehaviour
     private Transform laserPos;
     public int laserInventoryAmmo = 10;
 
-
+    [Header("")]
     [Header("SMG Info")]
     public float maxDiviation; [Tooltip("Diviation on both sides")]
     public float diviationMulti; [Tooltip("Diviation per second")]
@@ -42,10 +42,12 @@ public class PlayerGun : MonoBehaviour
     public int smgAmmoCurrent;
     public float smgReloadTime = 1.5f; [Tooltip("How many x Seconds reloading takes")]
 
+    [Header("")]
     [Header("Shotgun Info")]
     public float shotgunFireRate;[Tooltip("Fires 1 shot every x Second(s)")]
+    public bool chainsawing;
 
-
+    [Header("")]
     [Header("References")]
     public Transform firePoint; [Tooltip("Location for bullets to begin")]
     public LayerMask walls; [Tooltip("Interacts only with the first of these layers that are hit with the laser")]
@@ -310,7 +312,15 @@ public class PlayerGun : MonoBehaviour
     public void RIPANDTEAR()
     {
 
+        if(currentGun == WhichGun.shotgun && !chainsawing && UIScript.Instance.chainsawCharge == 1) // add term for cooldown on the ui
+        {
 
+            UIScript.Instance.chainsawCharge = 0;
+            chainsawing = true;
+
+            GetComponent<PlayerMovement>().playerAnim.SetTrigger("Rip and Tear");
+
+        }
 
     }
 
