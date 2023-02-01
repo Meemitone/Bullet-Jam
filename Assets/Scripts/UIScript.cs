@@ -9,6 +9,8 @@ public class UIScript : MonoBehaviour
     [Header("Needed stuff")] 
     public GameObject menu;
     public Text ammoText;
+    public PlayerMovement player;
+    public PlayerGun gun;
 
     [Header("Images")]
     public Image hearts;
@@ -33,6 +35,8 @@ public class UIScript : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        player = FindObjectOfType<PlayerMovement>();
+        gun = FindObjectOfType<PlayerGun>();
     }
     
     // Start is called before the first frame update
