@@ -95,6 +95,7 @@ public class PlayerGun : MonoBehaviour
                     reloading = true;
                     firing = false;
                     ReloadSMG();
+                    return;
                 }
                 smgAmmoCurrent--;
                 GameObject bullet = GameObject.Instantiate(bulletPrefabs[1], firePoint.position, firePoint.rotation * Quaternion.Euler(90, 0, Random.Range(-diviation, diviation)), bulletHolder.transform);
@@ -304,6 +305,13 @@ public class PlayerGun : MonoBehaviour
     public void AddGun()
     {
         gunCount++;
+    }
+
+    public void RIPANDTEAR()
+    {
+
+
+
     }
 
 }
