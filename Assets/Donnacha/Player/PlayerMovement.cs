@@ -12,20 +12,27 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Dash")]
     public float distance = 2;
-    public bool dodging = false;
+    public bool dodging = false; [Tooltip("Don't touch")]
     public float dashTime;
     private Vector3 dashLocation;
 
+    [Header("Health")]
+    public int healthMax = 8;
+    public int healthCurrent;
+    private bool invincible = false;
+    public float iFrames = 0.7f; [Tooltip("Invincibility over time")]
 
     [Header("References")]
     private CharacterController playerControl;
-    public BulletJam inputSystem;
+    public BulletJam inputSystem; [Tooltip("Don't touch")]
 
     // Start is called before the first frame update
     void Awake()
     {
         playerControl = GetComponent<CharacterController>();
         inputSystem = new BulletJam();
+
+        healthCurrent = healthMax;
 
     }
 
@@ -41,7 +48,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-
+        //reads the axises on the left joystick
         Vector2 move = inputSystem.Player.Move.ReadValue<Vector2>();
 
         OnMove(move);
@@ -54,12 +61,16 @@ public class PlayerMovement : MonoBehaviour
 
             OnLook(look);
         }
+
+        transform.position = new Vector3(transform.position.x, 0, transform.position.z);
     }
 
     public void OnMove(Vector2 moveInput)
     {
+        //stops normal movement to allow for dodging
         if (dodging)
         {
+            //moves the player to the location gained from the dodge input
             if (Vector3.Distance(transform.position, dashLocation) > 0.5f)
                 transform.position = Vector3.Lerp(transform.position, dashLocation, dashTime * Time.deltaTime);
             else
@@ -99,31 +110,101 @@ public class PlayerMovement : MonoBehaviour
             float dashDistance = distance;
             playerControl.Move(new Vector3());
 
+            //checks for player input on left stick
             if (motion != new Vector3(0, 0, 0))
             {
+                //faces player towards dash direction
                 Vector3 directionFinder = Vector3.ClampMagnitude(motion, 1);
                 transform.rotation = Quaternion.LookRotation(directionFinder);
             }
-            if (Physics.Raycast(transform.position + new Vector3(0, 1, 0), transform.forward, out hit, distance + 0.2f, GetComponent<PlayerGun>().wall))
+
+            //checks that the player will not go out of bounds
+            if (Physics.Raycast(transform.position + new Vector3(0, 1, 0), transform.forward, out hit, distance))
             {
                 Debug.Log(hit.transform.name);
-                dashDistance = hit.distance - 0.7f;
+                dashDistance = hit.distance - 0.7f; //lowers dash to just before the wall keeping in mind the player's radius
 
                 if (dashDistance < 0.5f)
                     return;
             }
+            //finds where the dash will finish
             dashLocation = transform.position + transform.forward * dashDistance;
             dodging = true;
-
-            Debug.Log(Vector3.Distance(transform.position, dashLocation) + " : " + dashDistance);
         }
 
     }
-
+    //secondary method to stop dash
     private void OnCollisionEnter(Collision collision)
     {
 
         dodging = false;
+
+    }
+
+    //take damage
+    private void OnTriggerEnter(Collider other)
+    {
+
+        if(other.gameObject.tag == "EnemyBullet" && !dodging && !invincible) //placeholder bullet name
+        {
+            healthCurrent -= other.GetComponent<DefaultBullet>().damage;
+            Destroy(other.gameObject);
+            //send health to UI
+            invincible = true;
+            Invoke(nameof(InvincibilityEnd), iFrames);
+            GetComponent<MeshRenderer>().material.color = Color.red;//marking player as hit change this to model mesh later 
+        }
+
+        if(other.gameObject.tag == "Object Pickup")
+        {
+
+            switch (other.gameObject.name)
+            {
+
+                default:
+                    Debug.Log("Failed Object Check");
+                    break;
+                case ("HealthPack"):
+                    break;
+                case ("SMGAmmo"):
+                    break;
+                case ("LaserBattery"):
+                    break;
+
+            }
+
+        }
+    }
+
+    private void HealthChange(int healthChange)
+    {
+
+        if(healthChange > 0 && healthCurrent != healthMax)
+        {
+            healthCurrent += healthChange;
+        }
+        else if (healthChange < 0)
+        {
+            healthCurrent += healthChange;
+        }
+
+        if(healthCurrent <= 0)
+        {
+            Die();
+        }
+
+    }
+
+    private void InvincibilityEnd()
+    {
+        invincible = false;
+        GetComponent<MeshRenderer>().material.color = Color.white; //marking end of iFrames change this to model mesh later 
+    }
+
+    public void Die()
+    {
+
+
 
     }
 

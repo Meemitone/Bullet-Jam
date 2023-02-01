@@ -11,7 +11,7 @@ public class PlayerBullet : MonoBehaviour
     void Start()
     {
 
-        Invoke(nameof(DeleteMe), 1);
+        Invoke(nameof(DeleteMe), 1.5f);
 
     }
 
