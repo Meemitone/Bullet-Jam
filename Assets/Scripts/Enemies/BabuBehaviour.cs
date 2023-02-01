@@ -124,15 +124,7 @@ public class BabuBehaviour : MonoBehaviour
 
             case States.Die:
                 //GetComponentInChildren<Animator>().enabled = false;//deactivate the animator
-                anim.SetTrigger("BabySpiderDeath");
-                if (GetComponentInChildren<SphereCollider>()!=null)
-                {
-                    GetComponentInChildren<SphereCollider>().enabled = true; 
-                }
-                if (GetComponentInChildren<Rigidbody>()!=null)
-                {
-                    GetComponentInChildren<Rigidbody>().isKinematic = false; //activate physics for the RB 
-                }
+                anim.SetTrigger("Death");
 
                 transform.parent.DetachChildren();
                 nav.SetDestination(transform.position);
