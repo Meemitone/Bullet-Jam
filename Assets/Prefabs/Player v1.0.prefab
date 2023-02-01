@@ -366,7 +366,52 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 5607722683059589479}
-  chainsaw: {fileID: 3637923802202420127}
+  chainsaw: {fileID: 5257715402305713334}
+--- !u!1 &1587345959448541791
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3260678976312536683}
+  - component: {fileID: 5257715402305713334}
+  m_Layer: 13
+  m_Name: bullet kill box
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3260678976312536683
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1587345959448541791}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.97}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5607722683059589272}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &5257715402305713334
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1587345959448541791}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 2, y: 2, z: 1.2}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1793983500853070955
 GameObject:
   m_ObjectHideFlags: 0
@@ -658,8 +703,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2956623060990372028}
-  - component: {fileID: 3637923802202420127}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: shotgun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -684,19 +728,6 @@ Transform:
   m_Father: {fileID: 1335724727011648261}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 56.439, y: -180, z: -90}
---- !u!65 &3637923802202420127
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2469056365562130950}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: 10.494037, y: 20.498995, z: 39.55785}
-  m_Center: {x: -0.03187071, y: -2.1903143, z: -19.27898}
 --- !u!1 &2528321146459499152
 GameObject:
   m_ObjectHideFlags: 0
@@ -1644,6 +1675,7 @@ Transform:
   - {fileID: 5607722683460323736}
   - {fileID: 7661716173176010127}
   - {fileID: 2745763200371216459}
+  - {fileID: 3260678976312536683}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1667,6 +1699,9 @@ MonoBehaviour:
   healthMax: 8
   healthCurrent: 8
   iFrames: 0.7
+  heal: 2
+  smgAmmo: 15
+  laserAmmo: 2
   playerCam: {fileID: 0}
   playerAnim: {fileID: 7191201992544220177}
 --- !u!114 &5607722683059589276
