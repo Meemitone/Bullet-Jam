@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class BabuBehaviour : MonoBehaviour
+public class ChungusBehaviour : MonoBehaviour
 {
     private enum States
     {
         Spawn, //spawn in
-        FindCover, //ignore DONE
-        Shoot, //
+        FindCover, // use to punch
+        Shoot, // use to shoot
         Firing, //
-        Strafe, // ignore? no, I think I'll make it so that if they're close, they effectively use strafe
+        Strafe, // //use to move
         Die, //Initialise death subroutine and then enter Empty
         Empty //Do nothing as death resolves
     }
@@ -24,6 +24,8 @@ public class BabuBehaviour : MonoBehaviour
     [SerializeField] private int hp = 2;
     [SerializeField] private Animator anim;
     [SerializeField] private LaserMail mail;
+    [SerializeField] private Vector3 fist;
+    [SerializeField] private GameObject FistBullet;
     private Quaternion playerLook;
     private float initacc;
 
@@ -42,7 +44,7 @@ public class BabuBehaviour : MonoBehaviour
             Destroy(transform.parent.gameObject);
         }
         NavMeshHit navPlacer;
-        if(NavMesh.SamplePosition(transform.position, out navPlacer, 500, 1))
+        if (NavMesh.SamplePosition(transform.position, out navPlacer, 500, 1))
         {
             gameObject.transform.position = navPlacer.position;
             nav.enabled = true;
@@ -55,7 +57,7 @@ public class BabuBehaviour : MonoBehaviour
     {
         hp -= mail.damageSince;
         mail.damageSince = 0;
-        if (hp <= 0 && state!=States.Empty)
+        if (hp <= 0 && state != States.Empty)
         {
             state = States.Die;
         }
@@ -64,7 +66,7 @@ public class BabuBehaviour : MonoBehaviour
         switch (state)//ment
         {
             case States.Spawn:
-                if (anim.GetCurrentAnimatorClipInfo(0)[0].clip.name != "SpiderSpawn")
+                if (anim.GetCurrentAnimatorClipInfo(0)[0].clip.name != "GolemSpawn")
                     state = getNewState();
                 break;
             case States.FindCover://ignore (if we end up here, go elsewhere)
@@ -76,7 +78,7 @@ public class BabuBehaviour : MonoBehaviour
                 transform.rotation = Quaternion.Slerp(transform.rotation, playerLook, 0.3f);
                 RaycastHit shootChecker = new RaycastHit();
                 Physics.Raycast(transform.position, player.transform.position - transform.position, out shootChecker, (player.transform.position - transform.position).magnitude);
-                if (shootChecker.collider.gameObject == player || Vector3.Distance(transform.position, player.transform.position) < 0.1) //did we hit the player when targeted?
+                if (shootChecker.collider.gameObject == player || Vector3.Distance(transform.position, player.transform.position) < 3f) //did we hit the player when targeted?
                 {
                     //fire
                     if (callOfDutyShootAMan())
@@ -110,13 +112,11 @@ public class BabuBehaviour : MonoBehaviour
                 break;
 
             case States.Strafe:
-                transform.rotation = Quaternion.Slerp(transform.rotation, playerLook, 0.3f);
-                if (Vector3.Distance(player.transform.position, nav.destination) > maxStrafeRange || Vector3.Distance(player.transform.position, nav.destination) < minStrafeRange)
-                {
-                    StrafeTarget(0);
-                }
+                nav.SetDestination(player.transform.position);
 
-                if (Vector3.Distance(nav.destination, transform.position) < 0.5 || gun.State == 0)//if close enough to where was going
+
+
+                if (Vector3.Distance(nav.destination, transform.position) < 0.5)//if close enough to where was going
                 {
                     state = getNewState();//reroll priorities
                 }
@@ -125,11 +125,11 @@ public class BabuBehaviour : MonoBehaviour
             case States.Die:
                 GetComponentInChildren<Animator>().enabled = false;//deactivate the animator
 
-                if (GetComponentInChildren<SphereCollider>()!=null)
+                if (GetComponentInChildren<SphereCollider>() != null)
                 {
-                    GetComponentInChildren<SphereCollider>().enabled = true; 
+                    GetComponentInChildren<SphereCollider>().enabled = true;
                 }
-                if (GetComponentInChildren<Rigidbody>()!=null)
+                if (GetComponentInChildren<Rigidbody>() != null)
                 {
                     GetComponentInChildren<Rigidbody>().isKinematic = false; //activate physics for the RB 
                 }
@@ -166,26 +166,23 @@ public class BabuBehaviour : MonoBehaviour
         randomPoint.Normalize();
         randomPoint *= offset;
 
-        targets[0] = randomPoint + player.transform.position;
-        targets[1] = -randomPoint + player.transform.position;
-        targets[2] = new Vector3(randomPoint.z, 0, -randomPoint.x) + player.transform.position;
-        targets[3] = -targets[2] + player.transform.position;
+        targets[0] = randomPoint;
+        targets[1] = -randomPoint;
+        targets[2] = new Vector3(randomPoint.z, 0, -randomPoint.x);
+        targets[3] = -targets[2];
 
         for (int i = 0; i < 4; i++)
         {
             dists[i] = Vector3.Distance(transform.position, targets[i]);
-            Debug.Log(i);
-            Debug.Log(dists[i]);
         }
+
         float mindist = Mathf.Min(dists);
         for (int i = 0; i < 4; i++)
         {
             if (dists[i] == mindist)
             {
-
-                Debug.Log(i);
                 NavMeshPath path = new NavMeshPath();
-                nav.SetDestination(targets[i]);
+                nav.SetDestination(player.transform.position + targets[i]);
                 nav.CalculatePath(targets[i], path);
                 if (path.status == NavMeshPathStatus.PathComplete)
                 {
@@ -198,7 +195,7 @@ public class BabuBehaviour : MonoBehaviour
 
     private bool callOfDutyShootAMan()
     {
-        if(gun.State == 0)
+        if (gun.State == 0)
         {
             gun.Fire();
             return true;
@@ -208,9 +205,14 @@ public class BabuBehaviour : MonoBehaviour
 
     private States getNewState()
     {
+        if(state == States.Strafe)
+        {
+            //punch
+            return States.FindCover;
+        }
         if (gun.State == 0)
             return States.Shoot;
-        StrafeTarget(0);
+        else
             return States.Strafe;
     }
     private void OnCollisionEnter(Collision other)
