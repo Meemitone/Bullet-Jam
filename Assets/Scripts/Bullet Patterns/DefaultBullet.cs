@@ -28,11 +28,11 @@ public class DefaultBullet : MonoBehaviour
     }
 
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter(Collision c)
     {
-        if (true)
+        if (LayerMask.NameToLayer("Walls") == c.gameObject.layer)
         {
-            int i = 1;
+            Destroy(gameObject);
         }
     }
     /*
