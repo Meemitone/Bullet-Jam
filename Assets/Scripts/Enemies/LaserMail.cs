@@ -33,4 +33,12 @@ public class LaserMail : MonoBehaviour
     {
         laserTicked = false;
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(LayerMask.NameToLayer("BulletKiller") == other.gameObject.layer)
+        {
+            damageSince += 5;
+        }
+    }
 }
