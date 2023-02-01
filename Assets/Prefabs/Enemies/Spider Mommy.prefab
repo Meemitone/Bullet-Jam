@@ -169,6 +169,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 601693178175208893}
+  - component: {fileID: 5600021892081189889}
   m_Layer: 0
   m_Name: Spider Mommy
   m_TagString: Untagged
@@ -194,6 +195,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5600021892081189889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 601693178175208892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cadd87ae4a4847d45bf3c2060b43d41d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &601693178182137100
 GameObject:
   m_ObjectHideFlags: 0
@@ -400,6 +413,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 601693178182137101}
     m_Modifications:
+    - target: {fileID: 1985727966509455058, guid: 91e4398fb03bd084a97ea7c8569850d8, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 905d17172cc021a4cb8166fec5dc010f, type: 2}
     - target: {fileID: 2101523049173984689, guid: 91e4398fb03bd084a97ea7c8569850d8, type: 3}
       propertyPath: m_Name
       value: Spider

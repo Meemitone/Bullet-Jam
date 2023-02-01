@@ -11,8 +11,7 @@ public class RoomScript : MonoBehaviour
     public GameObject[] plannedEnemies;
     public List<GameObject> spawnedEnemies;
     public int enemyIndex;
-    public int enemyCount;
-    
+    public int MaxEnemies = 3;
 
     public GameObject[] allSpawners;
     public List<GameObject> spawners;
@@ -55,10 +54,26 @@ public class RoomScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (roomActive)
+        {
+            if (spawnedEnemies.Count < MaxEnemies && enemyIndex < plannedEnemies.Length)
+            {
+                spawnEnemy();
+                enemyIndex++;
+            }
+
+            if (enemyIndex == plannedEnemies.Length)
+            {
+                roomActive = false;
+                for (int i = 0; i < doors.Count; i++)
+                {
+                    doors[i].SetActive(false);
+                }
+            }
+        }
     }
 
-    public void spawnEnemy(GameObject Enemy)
+    public void spawnEnemy()
     {
         float[] distancesToPlayer = new float[spawners.Count];
         float[] spawnChances = new float[spawners.Count];
@@ -88,17 +103,22 @@ public class RoomScript : MonoBehaviour
             }
         }
         
-        Instantiate(Enemy, spawnPos, Quaternion.Euler(Vector3.back));
+        GameObject newEnemy = Instantiate(plannedEnemies[enemyIndex], spawnPos, Quaternion.Euler(Vector3.back));
+        spawnedEnemies.Add(newEnemy);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other == player)
+        
+        if (other.gameObject.tag == "Player")
         {
+            print("Activate");
             for (int i = 0; i < doors.Count; i++)
             {
                 doors[i].SetActive(true);
             }
+
+            roomActive = true;
         }
     }
 }
