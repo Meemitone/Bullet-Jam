@@ -7,9 +7,6 @@ using UnityEngine.AI;
 public class Default_Enemy_Behaviour : MonoBehaviour
 {
     public Gun_Controller gun;
-    private float time = 0;
-    private float stopTime = 0;
-    private float resumeTime = 0;
     public float timeToStop = 1;
     public float speed = 1;
     public float TimeToResume = 1;
