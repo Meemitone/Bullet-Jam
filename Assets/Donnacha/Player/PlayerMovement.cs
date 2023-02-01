@@ -25,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("References")]
     private CharacterController playerControl;
     public BulletJam inputSystem; [Tooltip("Don't touch")]
+    public Camera playerCam;
 
     bool mouseActive;
 
@@ -46,6 +47,13 @@ public class PlayerMovement : MonoBehaviour
         inputSystem.Player.Disable();
     }
 
+    private void Update()
+    {
+
+        mouseActive = GetComponent<PlayerInput>().currentControlScheme.ToString() == "Keyboard&Mouse";
+
+    }
+
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -55,6 +63,11 @@ public class PlayerMovement : MonoBehaviour
         OnMove(move);
 
         Vector2 look = inputSystem.Player.Look.ReadValue<Vector2>();
+
+        if (mouseActive)
+        {
+            look = Input.mousePosition - playerCam.WorldToScreenPoint(transform.position);
+        }
 
         if(look.x > 0.05f || look.y > 0.05f || look.x < -0.05f || look.y < -0.05f)
         {
@@ -210,5 +223,9 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
+    public void PauseGame()
+    {
+        UIScript.Instance.PauseGame();
+    }
 
 }
