@@ -187,11 +187,11 @@ public class PlayerMovement : MonoBehaviour
                 default:
                     Debug.Log("Failed Object Check");
                     break;
-                case ("HealthPack"):
+                case ("Health"):
                     break;
-                case ("SMGAmmo"):
+                case ("SMG"):
                     break;
-                case ("LaserBattery"):
+                case ("Laser"):
                     break;
 
             }

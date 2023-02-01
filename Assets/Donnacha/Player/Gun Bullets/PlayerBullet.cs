@@ -17,8 +17,8 @@ public class PlayerBullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-
-        Invoke(nameof(DeleteMe), 0.05f);
+        if (collision.gameObject.layer != LayerMask.NameToLayer("Enemy"))
+            DeleteMe();
 
     }
 
