@@ -7231,6 +7231,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Setup
       objectReference: {fileID: 0}
+    - target: {fileID: 4641030342599060241, guid: 8532487a44f6fe64fb9d070645e6794c, type: 3}
+      propertyPath: m_Volume
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8255330667681705995, guid: 8532487a44f6fe64fb9d070645e6794c, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -7272,6 +7276,34 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8255330667681705995, guid: 8532487a44f6fe64fb9d070645e6794c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8843123274604474606, guid: 8532487a44f6fe64fb9d070645e6794c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.053885292
+      objectReference: {fileID: 0}
+    - target: {fileID: 8843123274604474606, guid: 8532487a44f6fe64fb9d070645e6794c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.99854714
+      objectReference: {fileID: 0}
+    - target: {fileID: 8843123274604474606, guid: 8532487a44f6fe64fb9d070645e6794c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.0000000064237358
+      objectReference: {fileID: 0}
+    - target: {fileID: 8843123274604474606, guid: 8532487a44f6fe64fb9d070645e6794c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.000000119036066
+      objectReference: {fileID: 0}
+    - target: {fileID: 8843123274604474606, guid: 8532487a44f6fe64fb9d070645e6794c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8843123274604474606, guid: 8532487a44f6fe64fb9d070645e6794c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8843123274604474606, guid: 8532487a44f6fe64fb9d070645e6794c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
