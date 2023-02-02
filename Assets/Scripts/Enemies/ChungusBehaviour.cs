@@ -162,6 +162,8 @@ public class ChungusBehaviour : MonoBehaviour
                 foreach (Rigidbody dick in Members)
                 {
                     dick.isKinematic = false;
+                    dick.gameObject.transform.SetParent(null);
+                    Destroy(dick.gameObject, Random.Range(3, 5));
                 }
 
                 transform.parent.DetachChildren();
