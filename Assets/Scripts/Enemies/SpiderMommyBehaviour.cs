@@ -18,7 +18,7 @@ public class SpiderMommyBehaviour : MonoBehaviour
 
     [SerializeField] private bool distant = true; //true if distance to player > maxstraferange (typically)
 
-    [SerializeField] private GameObject SpecialLittleOrby;
+    //[SerializeField] private GameObject SpecialLittleOrby;
 
     [SerializeField] private States state = States.Spawn;
     [SerializeField] private NavMeshAgent nav;
@@ -58,7 +58,7 @@ public class SpiderMommyBehaviour : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        SpecialLittleOrby.transform.position = nav.destination;
+        //SpecialLittleOrby.transform.position = nav.destination;
         hp -= mail.damageSince;
         mail.damageSince = 0;
         if (hp <= 0 && state != States.Empty)
@@ -379,6 +379,7 @@ public class SpiderMommyBehaviour : MonoBehaviour
     private IEnumerator Death()
     {
         nav.SetDestination(transform.position);
+        GetComponent<CapsuleCollider>().enabled = false;
         yield return new WaitForSeconds(0.5f);
         Instantiate(mySon, transform.position, Quaternion.identity, transform.parent);
         Instantiate(mySon, transform.position, Quaternion.identity, transform.parent);

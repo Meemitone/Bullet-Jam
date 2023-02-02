@@ -126,6 +126,7 @@ public class BabuBehaviour : MonoBehaviour
                 //GetComponentInChildren<Animator>().enabled = false;//deactivate the animator
                 anim.SetTrigger("Death");
 
+                GetComponent<CapsuleCollider>().enabled = false;
                 if (Random.value <= 0.1)
                     gun.Fire(9, true);
 
