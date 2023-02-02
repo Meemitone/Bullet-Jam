@@ -26,7 +26,7 @@ public class ShotgunBulleter : MonoBehaviour
         }
         if (player == null)
         {
-            Debug.Log("Bullet can't find player");
+            //Debug.Log("Bullet can't find player");
             Destroy(this.gameObject);
         }
         if (!overrider)

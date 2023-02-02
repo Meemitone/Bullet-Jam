@@ -43,7 +43,7 @@ public class Groot_Behaviour : MonoBehaviour
         player = FindObjectOfType<PlayerMovement>().gameObject;
         if (player == null)
         {
-            Debug.Log("Enemy can't find player");
+            //Debug.Log("Enemy can't find player");
             Destroy(transform.parent.gameObject);
         }
         NavMeshHit navPlacer;

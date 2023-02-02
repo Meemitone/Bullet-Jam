@@ -28,7 +28,7 @@ public class TrippleShotBulletPattern : MonoBehaviour
         }
         if (player == null)
         {
-            Debug.Log("Bullet can't find player");
+            //Debug.Log("Bullet can't find player");
             Destroy(this.gameObject);
         }
         Vector3 Direction = player.transform.position - transform.position;

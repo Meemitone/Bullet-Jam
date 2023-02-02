@@ -41,7 +41,10 @@ public class DefaultBullet : MonoBehaviour
 
         if (other.gameObject.layer == LayerMask.NameToLayer("BulletKiller"))
             Destroy(gameObject);
-
+        if (LayerMask.NameToLayer("Walls") == other.gameObject.layer || LayerMask.NameToLayer("BulletKiller") == other.gameObject.layer)
+        {
+            Destroy(gameObject);
+        }
     }
 
     /*

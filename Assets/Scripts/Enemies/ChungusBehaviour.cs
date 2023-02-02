@@ -137,7 +137,7 @@ public class ChungusBehaviour : MonoBehaviour
                 if (Vector3.Distance(nav.destination, transform.position) < 0.5f || Vector3.Distance(nav.destination, transform.position) > 4f)//if close enough to where was going or too far away
                 {
                     state = getNewState();//reroll priorities
-                    Debug.Log("strafe");    
+                    //Debug.Log("strafe");    
                 }
                 break;
 
