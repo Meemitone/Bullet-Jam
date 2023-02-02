@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class UIScript : MonoBehaviour
 {
@@ -12,14 +13,18 @@ public class UIScript : MonoBehaviour
     public Text ammoText;
     public PlayerMovement player;
     public PlayerGun gun;
-
+    public Text endScreenText;
+    public GameObject nextLevelButton;
+    
     [Header("Images")]
     public Image hearts;
     public Image[] heartGlows;
     public Image chainsawChargeImage;
     public Image chainsawGlow;
     public Image[] weaponLights;
-
+    public Image endScreen;
+    
+    
     [Header("Numbers")] 
     public int weaponCount = 1;
     public int weaponIndex = 0;
@@ -29,6 +34,7 @@ public class UIScript : MonoBehaviour
     public int smgClip = 0;
     public int smgAmmo = 0;
     public int laserAmmo = 0;
+    public float bossHealth = 0;
 
     [Header("Info")]
     public bool paused = false;
@@ -37,6 +43,7 @@ public class UIScript : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+       
     }
     
     // Start is called before the first frame update
@@ -44,11 +51,16 @@ public class UIScript : MonoBehaviour
     {
        Cursor.visible = false;
        Cursor.lockState = CursorLockMode.Confined;
+       Time.timeScale = 1;
     }
 
     private void FixedUpdate()
     {
         chainsawCharge += 1 / (100 * chainsawChargeTime);
+        if (playerHealth <= 0)
+        {
+            gameOver(false);
+        }
     }
 
     // Update is called once per frame
@@ -139,5 +151,25 @@ public class UIScript : MonoBehaviour
         smgClip = gun.smgAmmoCurrent;
         smgAmmo = gun.smgInventoryAmmo;
         laserAmmo = gun.laserInventoryAmmo;
+    }
+
+    public void gameOver(bool win)
+    {
+        Cursor.visible = true;
+        Time.timeScale = 0;
+        endScreen.gameObject.SetActive(true);
+        if (win)
+        {
+            nextLevelButton.gameObject.SetActive(true);
+            endScreenText.text =
+                "Good Job engineer, you have cleaned up a little more of this mess. report to HR for payment";
+        }
+        else
+        {
+            endScreenText.text =
+                "Disappointing, corporate expects much more from all of it's employees. Report to HR for immediate contract termination and payment of "
+                + Random.Range(100, 1200)
+            +" in company damages.";
+        }
     }
 }
