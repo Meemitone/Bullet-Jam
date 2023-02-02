@@ -6,9 +6,10 @@ using UnityEngine;
 public class MiniBossScript : MonoBehaviour
 {
     [SerializeField] private Animator anim;
+    [SerializeField] private UIScript yooie;
     [SerializeField] private Vulnerability V;
     [SerializeField] private LaserMail Mail;
-    [SerializeField] private int hp;
+    [SerializeField] private float hp;
     [SerializeField] private float desync;
     [SerializeField] private float openTime;
     [SerializeField] private float closeTime;
@@ -17,6 +18,7 @@ public class MiniBossScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        yooie = FindObjectOfType<UIScript>();
         pastTime = desync;
         if (state)
             desync = UnwindOpen(desync, out state);
@@ -63,10 +65,11 @@ public class MiniBossScript : MonoBehaviour
         {
             Mail.damageSince = 0;
         }
-
+        yooie.bossHealth = hp;
         if(hp<=0)
         {
             //put what to do on death here
+            Invoke("endGame", 0.45f);
             Destroy(gameObject, 0.5f);
 
             /*from the sounds of it, disable the models, enable the explosion particles, and then Destroy(gameObject, explosionDelay);
@@ -92,7 +95,10 @@ public class MiniBossScript : MonoBehaviour
         }
     }
 
-
+    private void endGame()
+    {
+        yooie.gameOver(true);
+    }
 
     private void OnCollisionEnter(Collision other)
     {

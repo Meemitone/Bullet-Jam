@@ -21,7 +21,7 @@ public class BabuBehaviour : MonoBehaviour
     [SerializeField] private GameObject player;
     [SerializeField] private Gun_Controller gun;
     [SerializeField] private float minStrafeRange, maxStrafeRange;
-    [SerializeField] private int hp = 2;
+    [SerializeField] private float hp = 2;
     [SerializeField] private Animator anim;
     [SerializeField] private LaserMail mail;
     private Quaternion playerLook;

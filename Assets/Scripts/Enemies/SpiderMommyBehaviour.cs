@@ -25,7 +25,7 @@ public class SpiderMommyBehaviour : MonoBehaviour
     [SerializeField] private GameObject player;
     [SerializeField] private Gun_Controller gun;
     [SerializeField] private float minStrafeRange, maxStrafeRange;
-    [SerializeField] private int hp = 7;
+    [SerializeField] private float hp = 7;
     [SerializeField] private Animator anim;
     [SerializeField] private LaserMail mail;
     private Quaternion playerLook;
