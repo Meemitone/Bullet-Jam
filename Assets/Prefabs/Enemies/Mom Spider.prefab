@@ -104,7 +104,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distant: 1
-  SpecialLittleOrby: {fileID: 601693178220792454}
   state: 0
   nav: {fileID: 0}
   player: {fileID: 0}
@@ -112,6 +111,7 @@ MonoBehaviour:
   minStrafeRange: 3
   maxStrafeRange: 4
   hp: 4
+  attackOdds: 0.75
   anim: {fileID: 0}
   mail: {fileID: 0}
   playerDist: 0
@@ -395,6 +395,10 @@ PrefabInstance:
       propertyPath: BulletHolder
       value: 
       objectReference: {fileID: 601693176834232790}
+    - target: {fileID: 5715283797353695649, guid: cff603e6e1b62db4fa9528b183ca5849, type: 3}
+      propertyPath: CooldownTime
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5715283797353695655, guid: cff603e6e1b62db4fa9528b183ca5849, type: 3}
       propertyPath: m_Name
       value: EnemyGun
