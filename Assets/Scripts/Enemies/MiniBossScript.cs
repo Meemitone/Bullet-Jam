@@ -69,6 +69,8 @@ public class MiniBossScript : MonoBehaviour
         if(hp<=0)
         {
             //put what to do on death here
+            yooie.updateHP = false;
+            FindObjectOfType<PlayerMovement>().healthCurrent = 9000;
             Invoke("endGame", 0.45f);
             Destroy(gameObject, 0.5f);
 
