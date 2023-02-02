@@ -336,7 +336,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8255330667681705995}
   m_Layer: 0
-  m_Name: Player Setup
+  m_Name: Setup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1027,7 +1027,7 @@ MonoBehaviour:
   healthCurrent: 8
   iFrames: 0.7
   heal: 2
-  smgAmmo: 15
+  smgAmmo: 80
   laserAmmo: 2
   playerCam: {fileID: 7410059383830494114}
   playerAnim: {fileID: 367493770825456774}
@@ -1063,9 +1063,9 @@ MonoBehaviour:
   maxDiviation: 15
   diviationMulti: 15
   smgBulletSpeed: 30
-  smgFireRate: 0.1
-  smgInventoryAmmo: 100
-  smgClipMax: 20
+  smgFireRate: 0.05
+  smgInventoryAmmo: 200
+  smgClipMax: 50
   smgAmmoCurrent: 0
   smgReloadTime: 1.5
   shotgunFireRate: 1
@@ -1498,7 +1498,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e06e0fe1775f74e7e89ff23bb65f8c53, type: 2}
+  - {fileID: 2100000, guid: 3b74208d1663c1242ac2296b8a4b84d8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1530,7 +1530,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.35
+        value: 0.3
         inSlope: 0
         outSlope: 0
         tangentMode: 0

@@ -7229,7 +7229,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1719192617623866229, guid: 8532487a44f6fe64fb9d070645e6794c, type: 3}
       propertyPath: m_Name
-      value: Player Setup
+      value: Setup
       objectReference: {fileID: 0}
     - target: {fileID: 8255330667681705995, guid: 8532487a44f6fe64fb9d070645e6794c, type: 3}
       propertyPath: m_RootOrder
