@@ -192,7 +192,7 @@ public class SpiderMommyBehaviour : MonoBehaviour
     {
         RaycastHit shootChecker = new RaycastHit();
         Physics.Raycast(transform.position, player.transform.position - transform.position, out shootChecker, (player.transform.position - transform.position).magnitude);
-        if (shootChecker.collider.gameObject == player) //Can we shoot the player?
+        if (shootChecker.collider != null && shootChecker.collider.gameObject == player) //Can we shoot the player?
         {
             if (Random.value < 0.5f)
             {

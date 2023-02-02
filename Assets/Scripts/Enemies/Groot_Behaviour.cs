@@ -79,7 +79,7 @@ public class Groot_Behaviour : MonoBehaviour
                     aggression += aggroRate * cowardMultiplier;
                     RaycastHit coverChecker = new RaycastHit();
                     Physics.Raycast(transform.position, player.transform.position - transform.position, out coverChecker, (player.transform.position - transform.position).magnitude);
-                    if (coverChecker.collider.gameObject == player) //did we hit the player when targeted?
+                    if (coverChecker.collider != null && coverChecker.collider.gameObject == player) //did we hit the player when targeted?
                     {
                         state = getNewState();
                     }
@@ -103,7 +103,7 @@ public class Groot_Behaviour : MonoBehaviour
                 transform.rotation = Quaternion.Slerp(transform.rotation, playerLook, 0.3f);
                 RaycastHit shootChecker = new RaycastHit();
                 Physics.Raycast(transform.position, player.transform.position - transform.position, out shootChecker, (player.transform.position - transform.position).magnitude);
-                if (shootChecker.collider.gameObject == player) //did we hit the player when targeted?
+                if (shootChecker.collider != null && shootChecker.collider.gameObject == player) //did we hit the player when targeted?
                 {
                     //fire
                     if (callOfDutyShootAMan())
@@ -151,7 +151,7 @@ public class Groot_Behaviour : MonoBehaviour
                 }
 
                 Physics.Raycast(transform.position, player.transform.position - transform.position, out shootChecker, (player.transform.position - transform.position).magnitude);
-                if (shootChecker.collider.gameObject == player && aggression > 0.75) //Can we shoot the player?
+                if (shootChecker.collider != null && shootChecker.collider.gameObject == player && aggression > 0.75) //Can we shoot the player?
                 {
                     state = getNewState();
                 }
@@ -274,7 +274,7 @@ public class Groot_Behaviour : MonoBehaviour
     {
         RaycastHit shootChecker = new RaycastHit();
         Physics.Raycast(transform.position, player.transform.position - transform.position, out shootChecker, (player.transform.position - transform.position).magnitude);
-        if (shootChecker.collider.gameObject == player) //did we hit the player when targeted?
+        if (shootChecker.collider != null && shootChecker.collider.gameObject == player) //did we hit the player when targeted?
         {
             //we are not currently in cover
             Vector3[] testpos = new Vector3[20];
