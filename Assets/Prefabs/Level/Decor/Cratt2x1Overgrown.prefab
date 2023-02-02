@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &594068798521186007
 Transform:
@@ -103,6 +103,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Vine1
       objectReference: {fileID: 0}
+    - target: {fileID: 6722632677616276147, guid: 997e166bdbe0c6d409475a790d611716, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 997e166bdbe0c6d409475a790d611716, type: 3}
 --- !u!4 &4814112049732156187 stripped
@@ -176,6 +180,10 @@ PrefabInstance:
     - target: {fileID: 3573986205570686381, guid: 1d7594a717589244c94d47f727e879f1, type: 3}
       propertyPath: m_Name
       value: Vine3 (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3573986205570686381, guid: 1d7594a717589244c94d47f727e879f1, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d7594a717589244c94d47f727e879f1, type: 3}
@@ -256,6 +264,10 @@ PrefabInstance:
     - target: {fileID: 2069495757922856271, guid: 0a7ac603f1d49ea4d8fe107cc5bd7c82, type: 3}
       propertyPath: m_Name
       value: Root2 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2069495757922856271, guid: 0a7ac603f1d49ea4d8fe107cc5bd7c82, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 2251781613179117817, guid: 0a7ac603f1d49ea4d8fe107cc5bd7c82, type: 3}
       propertyPath: m_RootOrder
@@ -371,6 +383,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Vine1 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 6722632677616276147, guid: 997e166bdbe0c6d409475a790d611716, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 997e166bdbe0c6d409475a790d611716, type: 3}
 --- !u!4 &4814112050411358619 stripped
@@ -388,6 +404,10 @@ PrefabInstance:
     - target: {fileID: 816274162692251868, guid: 7865e4a68363afe4099fac866372295c, type: 3}
       propertyPath: m_Name
       value: Vine2
+      objectReference: {fileID: 0}
+    - target: {fileID: 816274162692251868, guid: 7865e4a68363afe4099fac866372295c, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 4765395999846105009, guid: 7865e4a68363afe4099fac866372295c, type: 3}
       propertyPath: m_RootOrder
@@ -499,6 +519,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Vine3
       objectReference: {fileID: 0}
+    - target: {fileID: 3573986205570686381, guid: 1d7594a717589244c94d47f727e879f1, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d7594a717589244c94d47f727e879f1, type: 3}
 --- !u!4 &1778155470807475256 stripped
@@ -573,6 +597,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: FlowerLightRed
       objectReference: {fileID: 0}
+    - target: {fileID: 7550224386165830690, guid: 0d165ea7ea846a945ba3071b8b390585, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 7584855063526135002, guid: 0d165ea7ea846a945ba3071b8b390585, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0d165ea7ea846a945ba3071b8b390585, type: 3}
 --- !u!4 &5083290806245278705 stripped
@@ -590,6 +622,10 @@ PrefabInstance:
     - target: {fileID: 2052425160887751488, guid: e2069bd0ec6320145b4e966d09dd697f, type: 3}
       propertyPath: m_Name
       value: Root1 (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2052425160887751488, guid: e2069bd0ec6320145b4e966d09dd697f, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 2382752124341796030, guid: e2069bd0ec6320145b4e966d09dd697f, type: 3}
       propertyPath: m_RootOrder

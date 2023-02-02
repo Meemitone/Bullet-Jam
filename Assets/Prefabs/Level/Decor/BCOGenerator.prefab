@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &451178808992733409
 Transform:
@@ -115,6 +115,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 451178808992733409}
     m_Modifications:
+    - target: {fileID: 12454971737569948, guid: 5b54612e93d33cb4091bbc4c6550555a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 2577140765778959329, guid: 5b54612e93d33cb4091bbc4c6550555a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 3849914360673946191, guid: 5b54612e93d33cb4091bbc4c6550555a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 4623946476421436538, guid: 5b54612e93d33cb4091bbc4c6550555a, type: 3}
       propertyPath: m_Name
       value: FloodLights
