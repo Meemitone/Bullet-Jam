@@ -5133,6 +5133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 373996764}
   - component: {fileID: 373996763}
+  - component: {fileID: 373996765}
   m_Layer: 0
   m_Name: PlantMiniBoss
   m_TagString: Untagged
@@ -5154,11 +5155,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anim: {fileID: 0}
   V: {fileID: 0}
-  hp: 0
-  desync: 0
-  openTime: 0
-  closeTime: 0
+  Mail: {fileID: 373996765}
+  hp: 100
+  desync: 2
+  openTime: 5
+  closeTime: 7
   pastTime: 0
+  state: 1
 --- !u!4 &373996764
 Transform:
   m_ObjectHideFlags: 0
@@ -5175,6 +5178,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &373996765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 373996762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb2fe740d9acb06469308078ffd32df5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageSince: 0
+  laserTicked: 0
 --- !u!1001 &374281744
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30696,6 +30713,9 @@ MonoBehaviour:
   healthMax: 1
   healthCurrent: 1
   iFrames: 0
+  heal: 2
+  smgAmmo: 15
+  laserAmmo: 2
   playerCam: {fileID: 0}
   playerAnim: {fileID: 0}
 --- !u!1001 &2088039424

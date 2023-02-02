@@ -7,6 +7,7 @@ public class MiniBossScript : MonoBehaviour
 {
     [SerializeField] private Animator anim;
     [SerializeField] private Vulnerability V;
+    [SerializeField] private LaserMail Mail;
     [SerializeField] private int hp;
     [SerializeField] private float desync;
     [SerializeField] private float openTime;
@@ -21,6 +22,13 @@ public class MiniBossScript : MonoBehaviour
             desync = UnwindOpen(desync, out state);
         else
             desync = UnwindClosed(desync, out state);
+        if (!state)
+        {
+            anim.SetTrigger("Change");
+        }
+        anim = GetComponentInChildren<Animator>();
+        V = GetComponentInChildren<Vulnerability>();
+
     }
 
     private float UnwindOpen(float desync, out bool cond)
@@ -46,11 +54,41 @@ public class MiniBossScript : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (V.vuln)
+        {
+            hp -= Mail.damageSince;
+            Mail.damageSince = 0;
+        }
+        else
+        {
+            Mail.damageSince = 0;
+        }
+
+        if(hp<=0)
+        {
+            //put what to do on death here
+            Destroy(gameObject, 0.5f);
+
+            /*from the sounds of it, disable the models, enable the explosion particles, and then Destroy(gameObject, explosionDelay);
+             * 
+             * 
+             * 
+             * */
+        }
+
+
         pastTime += Time.deltaTime;
-        if(state && pastTime > openTime)
+        if (state && pastTime > openTime)
         {
             state = !state;
             anim.SetTrigger("Change");
+            pastTime -= openTime;
+        }
+        else if (!state && pastTime > closeTime)
+        {
+            state = !state;
+            anim.SetTrigger("Change");
+            pastTime -= closeTime;
         }
     }
 
@@ -61,11 +99,8 @@ public class MiniBossScript : MonoBehaviour
         if (V.vuln && (LayerMask.NameToLayer("BulletKiller") == other.gameObject.layer || LayerMask.NameToLayer("Player Bullets") == other.gameObject.layer))
         {
             hp--;
-            if (hp <= 0)
-            {
-                //SHI NE 
-            }
-            Destroy(other.gameObject);
+            if (LayerMask.NameToLayer("Player Bullets") == other.gameObject.layer)
+                Destroy(other.gameObject);
         }
     }
 }
