@@ -26,6 +26,8 @@ public class SpiderMommyBehaviour : MonoBehaviour
     [SerializeField] private Gun_Controller gun;
     [SerializeField] private float minStrafeRange, maxStrafeRange;
     [SerializeField] private float hp = 7;
+    [Header("Attack Odd value between 0 and 1, chance to attack")]
+    [SerializeField] private float attackOdds = 0.5f;
     [SerializeField] private Animator anim;
     [SerializeField] private LaserMail mail;
     private Quaternion playerLook;
@@ -192,9 +194,9 @@ public class SpiderMommyBehaviour : MonoBehaviour
     {
         RaycastHit shootChecker = new RaycastHit();
         Physics.Raycast(transform.position, player.transform.position - transform.position, out shootChecker, (player.transform.position - transform.position).magnitude);
-        if (shootChecker.collider.gameObject == player) //Can we shoot the player?
+        if (shootChecker.collider != null && shootChecker.collider.gameObject == player) //Can we shoot the player?
         {
-            if (Random.value < 0.5f)
+            if (Random.value < attackOdds)
             {
                 return States.Shoot;
             }
