@@ -379,6 +379,7 @@ public class SpiderMommyBehaviour : MonoBehaviour
     private IEnumerator Death()
     {
         nav.SetDestination(transform.position);
+        GetComponent<CapsuleCollider>().enabled = false;
         yield return new WaitForSeconds(0.5f);
         Instantiate(mySon, transform.position, Quaternion.identity, transform.parent);
         Instantiate(mySon, transform.position, Quaternion.identity, transform.parent);
