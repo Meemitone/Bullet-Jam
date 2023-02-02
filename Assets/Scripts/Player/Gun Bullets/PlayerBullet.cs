@@ -20,6 +20,7 @@ public class PlayerBullet : MonoBehaviour
         {
             gameObject.GetComponent<Rigidbody>().useGravity = enabled;
             Invoke(nameof(DeleteMe), 3f);
+            damage = 0;
         }
         //DeleteMe();
     }
