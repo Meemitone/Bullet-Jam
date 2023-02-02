@@ -27,7 +27,7 @@ public class Groot_Behaviour : MonoBehaviour
     [SerializeField] private float cowardMultiplier = 1f;
     [SerializeField] private float strafeChanceMaximum = 1 / 3;
     [SerializeField] private float minStrafeRange, maxStrafeRange;
-    [SerializeField] private int hp = 7;
+    [SerializeField] private float hp = 7;
     [SerializeField] private Animator anim;
     [SerializeField] private LaserMail mail;
     private Quaternion playerLook;
