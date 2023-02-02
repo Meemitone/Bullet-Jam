@@ -108,7 +108,7 @@ MonoBehaviour:
   gun: {fileID: 0}
   minStrafeRange: 3
   maxStrafeRange: 4
-  hp: 2
+  hp: 10
   anim: {fileID: 0}
   mail: {fileID: 0}
   fist: {fileID: 6784527298179995118}
