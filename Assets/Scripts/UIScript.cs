@@ -8,14 +8,14 @@ using Random = UnityEngine.Random;
 
 public class UIScript : MonoBehaviour
 {
-    [Header("Needed stuff")] 
+    [Header("Needed stuff")]
     public GameObject menu;
     public Text ammoText;
     public PlayerMovement player;
     public PlayerGun gun;
     public Text endScreenText;
     public GameObject nextLevelButton;
-    
+
     [Header("Images")]
     public Image hearts;
     public Image[] heartGlows;
@@ -23,9 +23,9 @@ public class UIScript : MonoBehaviour
     public Image chainsawGlow;
     public Image[] weaponLights;
     public Image endScreen;
-    
-    
-    [Header("Numbers")] 
+
+
+    [Header("Numbers")]
     public int weaponCount = 1;
     public int weaponIndex = 0;
     public int playerHealth = 8;
@@ -38,20 +38,21 @@ public class UIScript : MonoBehaviour
 
     [Header("Info")]
     public bool paused = false;
+    public bool updateHP = true;
     public static UIScript Instance { get; private set; }
 
     private void Awake()
     {
         Instance = this;
-       
+
     }
-    
+
     // Start is called before the first frame update
     void Start()
     {
-       Cursor.visible = false;
-       Cursor.lockState = CursorLockMode.Confined;
-       Time.timeScale = 1;
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Confined;
+        Time.timeScale = 1;
     }
 
     private void FixedUpdate()
@@ -67,7 +68,7 @@ public class UIScript : MonoBehaviour
     void Update()
     {
         THENUMBERSMASON();
-        if(Input.GetKeyDown(KeyCode.Tab)){PauseGame();} // the button above tab
+        if (Input.GetKeyDown(KeyCode.Tab)) { PauseGame(); } // the button above tab
         UiUpdate();
     }
 
@@ -97,11 +98,11 @@ public class UIScript : MonoBehaviour
         {
             heartGlows[i].gameObject.SetActive(false);
         }
-        for (int i = 0; i < playerHealth/2; i++)
+        for (int i = 0; i < playerHealth / 2; i++)
         {
             heartGlows[i].gameObject.SetActive(true);
         }
-        
+
         //weapon
         for (int i = 0; i < 3; i++)
         {
@@ -114,30 +115,30 @@ public class UIScript : MonoBehaviour
                 weaponLights[i].gameObject.SetActive(false);
             }
         }
-        
+
         //ammo ∞
         chainsawChargeImage.fillAmount = chainsawCharge;
-        if(chainsawCharge >= 1f)
+        if (chainsawCharge >= 1f)
             chainsawGlow.gameObject.SetActive(true);
         else
             chainsawGlow.gameObject.SetActive(false);
-        
+
         switch (weaponIndex)
         {
             case 0:
 
                 ammoText.text = "∞";
-                ammoText.gameObject.transform.localScale = new Vector3(1.5f, 1.5f,1);
+                ammoText.gameObject.transform.localScale = new Vector3(1.5f, 1.5f, 1);
                 break;
             case 1:
 
                 ammoText.text = smgClip + "/" + smgAmmo;
-                ammoText.gameObject.transform.localScale = new Vector3(0.5f, 0.5f,1);
+                ammoText.gameObject.transform.localScale = new Vector3(0.5f, 0.5f, 1);
                 break;
             case 2:
 
                 ammoText.text = laserAmmo.ToString();
-                ammoText.gameObject.transform.localScale = new Vector3(0.5f, 0.5f,1);
+                ammoText.gameObject.transform.localScale = new Vector3(0.5f, 0.5f, 1);
                 break;
         }
 
@@ -147,7 +148,8 @@ public class UIScript : MonoBehaviour
     {
         weaponIndex = gun.gunIndex;
         weaponCount = gun.gunCount;
-        playerHealth = player.healthCurrent;
+        if (updateHP)
+            playerHealth = player.healthCurrent;
         smgClip = gun.smgAmmoCurrent;
         smgAmmo = gun.smgInventoryAmmo;
         laserAmmo = gun.laserInventoryAmmo;
@@ -168,8 +170,8 @@ public class UIScript : MonoBehaviour
         {
             endScreenText.text =
                 "Disappointing, corporate expects much more from all of it's employees. Report to HR for immediate contract termination and payment of "
-                + Random.Range(100, 1200)
-            +" in company damages.";
+                + Random.Range(100, 3200)
+            + " in company damages.";
         }
     }
 }
