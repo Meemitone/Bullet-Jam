@@ -1730,7 +1730,8 @@ MonoBehaviour:
   laserHit: {fileID: 8802788960804959157, guid: c629257352e724810b9068a944719713, type: 3}
   laserSpeed: 5
   laserUpTime: 2.5
-  totalDamageOverUptime: 0
+  tickDelay: 1
+  laserDamage: 1
   laserInventoryAmmo: 10
   maxDiviation: 15
   diviationMulti: 15
