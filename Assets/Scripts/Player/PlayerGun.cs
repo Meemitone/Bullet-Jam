@@ -25,7 +25,9 @@ public class PlayerGun : MonoBehaviour
     public GameObject laserHit;
     public float laserSpeed;
     public float laserUpTime; [Tooltip("How long laser lasts in total")]
-    public float totalDamageOverUptime; [Tooltip("Total damage over Uptime")]
+    //public float totalDamageOverUptime;[Tooltip("Total damage over Uptime")]
+    public float tickDelay;[Tooltip("Time between hits")]
+    public float laserDamage;[Tooltip("Damage per hit")]
     private LineRenderer laserLine;
     private List<GameObject> laserHits = new List<GameObject>();
     private Transform laserPos;
@@ -226,7 +228,7 @@ public class PlayerGun : MonoBehaviour
 
                     if(touch.transform.gameObject.layer == LayerMask.NameToLayer("Enemy"))
                     {
-                        touch.transform.GetComponent<LaserMail>().LaserDamage(totalDamageOverUptime / laserUpTime);
+                        touch.transform.GetComponent<LaserMail>().LaserDamage(tickDelay, laserDamage);
                     }
 
                     i++;
