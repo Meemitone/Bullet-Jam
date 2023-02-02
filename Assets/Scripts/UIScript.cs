@@ -23,6 +23,8 @@ public class UIScript : MonoBehaviour
     public Image chainsawGlow;
     public Image[] weaponLights;
     public Image endScreen;
+    public GameObject heathbarHolder;
+    public Image heathbar;
     
     
     [Header("Numbers")] 
@@ -34,10 +36,13 @@ public class UIScript : MonoBehaviour
     public int smgClip = 0;
     public int smgAmmo = 0;
     public int laserAmmo = 0;
-    public float bossHealth = 0;
+    public float bossHealth = 100;
+    public bool bossFight = false;
 
     [Header("Info")]
     public bool paused = false;
+
+    public bool updateHP = true;
     public static UIScript Instance { get; private set; }
 
     private void Awake()
@@ -69,6 +74,7 @@ public class UIScript : MonoBehaviour
         THENUMBERSMASON();
         if(Input.GetKeyDown(KeyCode.Tab)){PauseGame();} // the button above tab
         UiUpdate();
+        
     }
 
     public void PauseGame()
@@ -91,8 +97,21 @@ public class UIScript : MonoBehaviour
 
     void UiUpdate()
     {
+        //boss
+        if (bossFight)
+        {
+            heathbarHolder.gameObject.SetActive(true);
+            heathbar.fillAmount = bossHealth / 100f;
+        }
+        else
+        {
+            heathbarHolder.gameObject.SetActive(false);
+        }
+
+
         //health
         hearts.fillAmount = playerHealth / 8f;
+        
         for (int i = 0; i < 4; i++)
         {
             heartGlows[i].gameObject.SetActive(false);
@@ -147,6 +166,7 @@ public class UIScript : MonoBehaviour
     {
         weaponIndex = gun.gunIndex;
         weaponCount = gun.gunCount;
+        if(updateHP)
         playerHealth = player.healthCurrent;
         smgClip = gun.smgAmmoCurrent;
         smgAmmo = gun.smgInventoryAmmo;

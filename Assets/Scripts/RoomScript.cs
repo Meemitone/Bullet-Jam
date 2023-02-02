@@ -144,6 +144,11 @@ public class RoomScript : MonoBehaviour
             }
 
             roomActive = true;
+            if (bossfight && roomActive)
+            {
+                UIScript ui = FindObjectOfType<UIScript>();
+                ui.bossFight = true;
+            }
         }
     }
 }
