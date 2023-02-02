@@ -86,7 +86,7 @@ public class SpiderMommyBehaviour : MonoBehaviour
                 transform.rotation = Quaternion.Slerp(transform.rotation, playerLook, 0.3f);
                 RaycastHit shootChecker = new RaycastHit();
                 Physics.Raycast(transform.position, player.transform.position - transform.position, out shootChecker, (player.transform.position - transform.position).magnitude);
-                if (shootChecker.collider.gameObject == player) //did we hit the player when targeted?
+                if (shootChecker.collider!=null && shootChecker.collider.gameObject == player) //did we hit the player when targeted?
                 {
                     //fire
                     if (callOfDutyShootAMan())
