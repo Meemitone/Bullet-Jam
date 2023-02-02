@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerBullet : MonoBehaviour
 {
-    public int damage = 1;
+    public float damage = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +20,7 @@ public class PlayerBullet : MonoBehaviour
         {
             gameObject.GetComponent<Rigidbody>().useGravity = enabled;
             Invoke(nameof(DeleteMe), 3f);
+            damage = 0;
         }
         //DeleteMe();
     }
