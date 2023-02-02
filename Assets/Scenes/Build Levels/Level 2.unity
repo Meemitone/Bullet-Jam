@@ -2725,9 +2725,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1359962531774257635, guid: 8532487a44f6fe64fb9d070645e6794c, type: 3}
+      propertyPath: ColorModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1719192617623866229, guid: 8532487a44f6fe64fb9d070645e6794c, type: 3}
       propertyPath: m_Name
       value: Player Setup
+      objectReference: {fileID: 0}
+    - target: {fileID: 2491218503739697714, guid: 8532487a44f6fe64fb9d070645e6794c, type: 3}
+      propertyPath: chainsawSparks
+      value: 
+      objectReference: {fileID: 1764469815}
+    - target: {fileID: 3100574060036192267, guid: 8532487a44f6fe64fb9d070645e6794c, type: 3}
+      propertyPath: tickDelay
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 3100574060036192271, guid: 8532487a44f6fe64fb9d070645e6794c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2779,6 +2791,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8255330667681705995, guid: 8532487a44f6fe64fb9d070645e6794c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8384570249709721093, guid: 8532487a44f6fe64fb9d070645e6794c, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -5552,7 +5568,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5592861510973634919, guid: 68d6cb184eaeb0449b99e5d9dc237854, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.19
+      value: 0.78
       objectReference: {fileID: 0}
     - target: {fileID: 5592861510973634919, guid: 68d6cb184eaeb0449b99e5d9dc237854, type: 3}
       propertyPath: m_LocalPosition.z
@@ -8972,6 +8988,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 2474279868116246669, guid: 2aa9d49387858794aa77579c12f6194c, type: 3}
   m_PrefabInstance: {fileID: 1744557198}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &1764469815 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 442741719854279736, guid: 8532487a44f6fe64fb9d070645e6794c, type: 3}
+  m_PrefabInstance: {fileID: 556072803}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1781897360
 PrefabInstance:
