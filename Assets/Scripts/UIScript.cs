@@ -169,7 +169,7 @@ public class UIScript : MonoBehaviour
             endScreenText.text =
                 "Disappointing, corporate expects much more from all of it's employees. Report to HR for immediate contract termination and payment of "
                 + Random.Range(100, 1200)
-            +" in company damages.";
+            +" in company damages in addition to the operation invoice.";
         }
     }
 }
