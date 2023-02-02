@@ -351,7 +351,10 @@ public class Groot_Behaviour : MonoBehaviour
     {
         if (LayerMask.NameToLayer("Player Bullets") == other.gameObject.layer && state != States.Empty && state != States.Die)
         {
-            hp--;
+            if (other.gameObject.layer == LayerMask.NameToLayer("Player Bullets"))
+            {
+                hp -= other.gameObject.GetComponent<PlayerBullet>().damage;
+            }
             if (hp <= 0)
             {
                 state = States.Die;
