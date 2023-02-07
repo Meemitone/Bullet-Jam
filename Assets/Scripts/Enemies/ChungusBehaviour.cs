@@ -60,7 +60,7 @@ public class ChungusBehaviour : MonoBehaviour
     {
         hp -= mail.damageSince;
         mail.damageSince = 0;
-        if (hp <= 0 && state != States.Empty)
+        if (hp <= 0 && state != States.Empty && state != States.Die)
         {
             state = States.Die;
         }
